@@ -57,8 +57,8 @@ condition:
 ;
 
 logistics:
-    AND_
-    | OR_
+    AND
+    | OR
     | NOT_
 ;
 
@@ -113,15 +113,19 @@ expr:
     literal_value
     | (BIND_PARAMETER_ COLON)? (any_name DOT)* any_name
     | BIND_PARAMETER_
-    | unary_operator expr
-    | expr OR expr
-    | expr AND expr
-    | expr ( MUL | DIV | MOD) expr
-    | expr ( ADD | SUB) expr
-    | expr ( LT | LE | GT | GE) expr
+    | prefix = ('+' | '-' | '++' | '--') expr
+    | prefix = ('~' | '!') expr
+    | expr bop = ('*' | '/' | '%') expr
+    | expr bop = ('+' | '-') expr
+    | expr bop = ('<=' | '>=' | '>' | '<') expr
     | expr ( | EQUAL | NOTEQUAL | IS_ | IS_ NOT_ | IN_ | LIKE_ | MATCH_ | REGEXP_) expr
-    | expr AND_ expr
+    | expr bop = '&' expr
+    | expr bop = '^' expr
+    | expr bop = '|' expr
+    | expr bop = '&&' expr
+    | expr bop = '||' expr
     | expr OR_ expr
+    | expr AND_ expr
     | LPAREN expr (COMMA expr)* RPAREN
     | expr NOT_? (LIKE_ | REGEXP_ | MATCH_) expr
     | expr ( ISNULL_ | NOTNULL_ | NOT_ NULL_)
