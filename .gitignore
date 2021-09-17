@@ -4,3 +4,5 @@ dist
 .merlin
 lib/
 .bsb.lock
+
+.antlr/
