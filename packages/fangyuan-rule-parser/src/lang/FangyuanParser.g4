@@ -33,15 +33,24 @@ options {
 }
 
 parse:
-    namespace? declaration* EOF
+    packageDeclaration? macroDeclaration* attribute* declaration* EOF
 ;
 
-namespace:
-    NAMESPACE STRING_LITERAL
+macroDeclaration:
+    AT (IMPORT | RETURN) LBRACE STRING_LITERAL+ RBRACE
+;
+
+packageDeclaration:
+    PACKAGE (IDENTIFIER DOT)* IDENTIFIER
 ;
 
 declaration:
     ruleDeclaration
+    | rulesetDeclaration
+;
+
+rulesetDeclaration:
+    RULESET STRING_LITERAL attribute* ruleDeclaration+ END
 ;
 
 ruleDeclaration:
@@ -53,7 +62,7 @@ ruleLHS:
 ;
 
 condition:
-    logistics? (IDENTIFIER COLON)? IDENTIFIER LPAREN expr (COMMA expr)* RPAREN
+    logistics? (BIND_PARAMETER_ COLON)? IDENTIFIER LPAREN expr (COMMA expr)* RPAREN
 ;
 
 logistics:
@@ -67,7 +76,7 @@ ruleRHS:
 ;
 
 attribute:
-    IDENTIFIER literal_value
+    IDENTIFIER value
 ;
 
 json:
@@ -111,30 +120,31 @@ value:
  */
 expr:
     literal_value
-    | (BIND_PARAMETER_ COLON)? (any_name DOT)* any_name
-    | BIND_PARAMETER_
+    | variableDeclaration
     | prefix = ('+' | '-' | '++' | '--') expr
     | prefix = ('~' | '!') expr
     | expr bop = ('*' | '/' | '%') expr
     | expr bop = ('+' | '-') expr
     | expr bop = ('<=' | '>=' | '>' | '<') expr
-    | expr ( | EQUAL | NOTEQUAL | IS_ | IS_ NOT_ | IN_ | LIKE_ | MATCH_ | REGEXP_) expr
+    | expr bop = ('==' | '!=' | 'in') expr
     | expr bop = '&' expr
     | expr bop = '^' expr
     | expr bop = '|' expr
     | expr bop = '&&' expr
     | expr bop = '||' expr
-    | expr OR_ expr
-    | expr AND_ expr
+    | expr bop = OR_ expr
+    | expr bop = AND_ expr
     | LPAREN expr (COMMA expr)* RPAREN
-    | expr NOT_? (LIKE_ | REGEXP_ | MATCH_) expr
-    | expr ( ISNULL_ | NOTNULL_ | NOT_ NULL_)
-    | expr IS_ NOT_? expr
-    | expr NOT_? IN_ expr
+    | expr NOT_ IN_ expr
+;
+
+variableDeclaration:
+    (BIND_PARAMETER_ COLON)? (any_name DOT)* any_name
 ;
 
 literal_value:
     value
+    | BIND_PARAMETER_
 ;
 
 unary_operator:

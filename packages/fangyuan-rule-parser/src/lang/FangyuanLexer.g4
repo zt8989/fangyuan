@@ -30,6 +30,7 @@ import JavaLexer;
 
 BIND_PARAMETER_: '$' IDENTIFIER;
 
+RULESET: 'ruleset' | '规则集';
 RULE: 'rule' | '规则';
 WHEN: 'when' | '当';
 THEN: 'then' | '那么';
