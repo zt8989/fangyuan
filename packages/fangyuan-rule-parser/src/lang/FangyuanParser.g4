@@ -37,7 +37,7 @@ parse:
 ;
 
 macroDeclaration:
-    AT (IMPORT | RETURN) LBRACE STRING_LITERAL+ RBRACE
+    AT IDENTIFIER (COLON IDENTIFIER)? LBRACE STRING_LITERAL+ RBRACE
 ;
 
 packageDeclaration:

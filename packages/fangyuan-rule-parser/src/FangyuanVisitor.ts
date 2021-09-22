@@ -36,24 +36,51 @@ function inArrayOrObject(key: string, data: string[] | Object) {
   return Array.isArray(data) ? data.includes(key) : key in data;
 }
 
-type Rule = (ctx: any) => { evalute: () => boolean; execute: () => any };
+type Rule = (ctx: any) => { evaluate: () => boolean; execute: () => any };
 
-function concurrent(rules: Record<string, Rule>) {
-  return (ctx: any) =>
-    Object.keys(rules)
-      .map((key) => rules[key](ctx))
-      .filter((obj) => obj.evalute())
-      .map((obj) => obj.evalute());
+function concurrent(rules: Record<string, Rule>): Rule {
+  return (ctx: any) => {
+    let validRules: ReturnType<Rule>[] | undefined;
+
+    function evaluate() {
+      validRules = Object.keys(rules)
+        .map((key) => rules[key](ctx))
+        .filter((obj) => obj.evaluate());
+      return validRules.length > 0;
+    }
+
+    function execute() {
+      if (!validRules) {
+        throw new Error("please confirm evaluate is true");
+      }
+      return validRules.map((obj) => obj.execute());
+    }
+
+    return { evaluate, execute };
+  };
 }
 
-function sort(rules: Record<string, Rule>) {
+function sort(rules: Record<string, Rule>): Rule {
   return (ctx: any) => {
-    for (let key of Object.keys(rules)) {
-      let obj = rules[key](ctx);
-      if (obj.evalute()) {
-        return obj.evalute();
+    let obj: ReturnType<Rule> | undefined;
+    function evaluate() {
+      for (let key of Object.keys(rules)) {
+        obj = rules[key](ctx);
+        if (obj.evaluate()) {
+          return true;
+        }
       }
+      obj = undefined;
+      return false;
     }
+    function execute() {
+      if (!obj) {
+        throw new Error("please confirm evaluate is true");
+      }
+      return obj.execute();
+    }
+
+    return { evaluate, execute };
   };
 }
 
@@ -90,14 +117,10 @@ export class FangyuanVisitor
   }
 
   visitMacroDeclaration(ctx: MacroDeclarationContext) {
-    if (ctx.IMPORT()) {
+    const ids = ctx.IDENTIFIER();
+    if (ids.length > 0 && ids[0].text === "typescript") {
       ctx.STRING_LITERAL().forEach((str) => {
         this.typescript += trimQuote(str.text) + "\n";
-      });
-    } else if (ctx.RETURN()) {
-      ctx.STRING_LITERAL().forEach((str) => {
-        this.typescript +=
-          "export declare const execute: " + trimQuote(str.text) + "\n";
       });
     }
     return "";
@@ -135,7 +158,7 @@ export class FangyuanVisitor
       "\n" +
       text +
       `\n ${
-        target === "commonjs" ? "exports.execute" : "export const execute"
+        target === "commonjs" ? "exports.rule" : "export const rule"
       } = ${func}(${this.lastName()})`
     );
   }
@@ -160,7 +183,7 @@ export class FangyuanVisitor
     return `${this.lastName()}[${ctx.STRING_LITERAL().text}] = function(ctx){
   const { ${types.join(", ")} } = ctx  
       ${text}
-      return { evalute, execute };}\n`;
+      return { evaluate, execute };}\n`;
   }
 
   visitRulesetDeclaration(ctx: RulesetDeclarationContext) {
@@ -193,7 +216,7 @@ export class FangyuanVisitor
     const variables = this.variables;
     this.variables = [];
     return (
-      "function evalute(){\n  " +
+      "function evaluate(){\n  " +
       (variables.length > 0 ? variables.join("\n") + "\n" : "") +
       "  return " +
       (result.length === 0 ? "true" : result.join(" && ")) +

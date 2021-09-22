@@ -7,6 +7,11 @@
   resolved "https://registry.nlark.com/@types/antlr4/download/@types/antlr4-4.7.2.tgz#8cfbbcea13d45c42e9a326aa0e55df816cdd07f5"
   integrity sha1-jPu86hPUXELpoyaqDlXfgWzdB/U=
 
+"@types/node@^16.9.4":
+  version "16.9.4"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.9.4.tgz#a12f0ee7847cf17a97f6fdf1093cb7a9af23cca4"
+  integrity sha1-oS8O54R88XqX9v3xCTy3qa8jzKQ=
+
 "@types/prettier@^2.3.2":
   version "2.3.2"
   resolved "https://registry.nlark.com/@types/prettier/download/@types/prettier-2.3.2.tgz#fc8c2825e4ed2142473b4a81064e6e081463d1b3"

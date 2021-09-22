@@ -1,12 +1,9 @@
 package feeLock
 
-@import {
+@typescript {
 	"import User from '@/knownledage/User'" 
 	"import FeeItem from '@/knownledage/FeeItem'" 
-}
-
-@return {
-	"(ctx: { user: User, feeItem: FeeItem }) => [number, string]" 
+	"export declare const rule: (ctx: { user: User, feeItem: FeeItem }) => ({ evaluate: () => boolean, execute: () => [number, string] })" 
 }
 
 desc "费用锁定规则"
@@ -25,7 +22,6 @@ end
 ruleset "非业务主体"
 	mode "sort"
 	rule "非业务主体锁定"
-		group "业务主体"
 		when 
 			User($orgIds: orgIds) // 取出用户中的所有关联公司
 			FeeItem(orgId not in $orgIds) // 这条费用的对应的公司id 不在用户的关联公司里面
