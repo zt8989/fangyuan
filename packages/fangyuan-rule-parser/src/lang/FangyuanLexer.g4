@@ -35,7 +35,6 @@ RULE: 'rule' | '规则';
 WHEN: 'when' | '当';
 THEN: 'then' | '那么';
 END: 'end' | '结束';
-NAMESPACE: 'namespace' | '命名空间';
 
 AND_: 'and';
 OR_: 'or';
@@ -45,6 +44,7 @@ IS_: 'is';
 IN_: 'in';
 LIKE_: 'like';
 MATCH_: 'match';
+INCLUDES: 'includes';
 REGEXP_: 'regexp';
 ISNULL_: 'isnull';
 NOTNULL_: 'notnull';
