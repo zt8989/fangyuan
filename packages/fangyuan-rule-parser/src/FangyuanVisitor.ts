@@ -127,7 +127,13 @@ export class FangyuanVisitor
   }
 
   visitTerminal(ctx: TerminalNode) {
-    if ([FangyuanParser.IN_, FangyuanParser.NOT_].includes(ctx.symbol.type))
+    if (
+      [
+        FangyuanParser.IN_,
+        FangyuanParser.NOT_,
+        FangyuanParser.INCLUDES,
+      ].includes(ctx.symbol.type)
+    )
       return ctx.text + " ";
     return "";
   }
@@ -305,6 +311,14 @@ export class FangyuanVisitor
           ctx.getChild(2)
         )})`;
       }
+      if (
+        op instanceof TerminalNode &&
+        op.symbol.type === FangyuanParser.INCLUDES
+      ) {
+        return `inArrayOrObject(${this.visit(ctx.getChild(2))}, ${this.visit(
+          ctx.getChild(0)
+        )})`;
+      }
       return (
         this.visit(ctx.getChild(0)) +
         " " +
@@ -318,6 +332,14 @@ export class FangyuanVisitor
       if (op instanceof TerminalNode && op.symbol.type === FangyuanParser.IN_) {
         return `!inArrayOrObject(${this.visit(ctx.getChild(0))}, ${this.visit(
           ctx.getChild(3)
+        )})`;
+      }
+      if (
+        op instanceof TerminalNode &&
+        op.symbol.type === FangyuanParser.INCLUDES
+      ) {
+        return `!inArrayOrObject(${this.visit(ctx.getChild(3))}, ${this.visit(
+          ctx.getChild(0)
         )})`;
       }
     }
