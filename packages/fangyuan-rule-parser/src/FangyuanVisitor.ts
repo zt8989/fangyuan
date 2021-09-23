@@ -216,8 +216,8 @@ export class FangyuanVisitor
     const variables = this.variables;
     this.variables = [];
     return (
-      "function evaluate(){\n  " +
       (variables.length > 0 ? variables.join("\n") + "\n" : "") +
+      "function evaluate(){\n  " +
       "  return " +
       (result.length === 0 ? "true" : result.join(" && ")) +
       "\n  }\n"

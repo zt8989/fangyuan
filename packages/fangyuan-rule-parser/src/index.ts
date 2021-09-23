@@ -3,35 +3,46 @@ import { FangyuanVisitor } from "./FangyuanVisitor";
 import { FangyuanLexer } from "./lang/FangyuanLexer";
 import { FangyuanParser } from "./lang/FangyuanParser";
 import * as fs from "fs";
-import { FangyuanListener } from "./FangyuanListener";
-import { ParseTreeWalker } from "antlr4ts/tree/ParseTreeWalker";
 import * as prettier from "prettier";
+import glob from "glob";
+import path from "path";
 
-const chars = CharStreams.fromString(
-  fs.readFileSync(__dirname + "/../test/rule.drl", { encoding: "utf-8" })
-);
-const lexer = new FangyuanLexer(chars);
-const tokens = new CommonTokenStream(lexer);
-const parser = new FangyuanParser(tokens);
-parser.buildParseTree = true;
-const tree = parser.parse();
-// const listener = new FangyuanListener();
+export function gen(args: any) {
+  glob(args, async (err, files) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-// ParseTreeWalker.DEFAULT.walk(listener, tree);
-const visit = new FangyuanVisitor();
-const file = visit.visit(tree);
+    for (const file of files) {
+      const content = await fs.promises.readFile(file, { encoding: "utf-8" });
+      const chars = CharStreams.fromString(content);
+      const lexer = new FangyuanLexer(chars);
+      const tokens = new CommonTokenStream(lexer);
+      const parser = new FangyuanParser(tokens);
+      parser.buildParseTree = true;
+      const tree = parser.parse();
 
-fs.writeFileSync(
-  __dirname + `/../test/${visit.filename}.js`,
-  prettier.format(file, { parser: "typescript" }),
-  {
-    encoding: "utf-8",
-  }
-);
-fs.writeFileSync(
-  __dirname + `/../test/${visit.filename}.d.ts`,
-  prettier.format(visit.typescript, { parser: "typescript" }),
-  {
-    encoding: "utf-8",
-  }
-);
+      const visit = new FangyuanVisitor();
+      const targetSource = visit.visit(tree);
+
+      const basePath = path.dirname(file);
+      await fs.promises.writeFile(
+        path.join(basePath, `${visit.filename}.js`),
+        prettier.format(targetSource, { parser: "typescript" }),
+        {
+          encoding: "utf-8",
+        }
+      );
+      if (visit.typescript) {
+        await fs.promises.writeFile(
+          path.join(basePath, `${visit.filename}.d.ts`),
+          prettier.format(visit.typescript, { parser: "typescript" }),
+          {
+            encoding: "utf-8",
+          }
+        );
+      }
+    }
+  });
+}
