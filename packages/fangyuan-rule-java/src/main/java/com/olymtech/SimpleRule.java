@@ -25,6 +25,6 @@ public class SimpleRule<T> implements Rule<T>{
 
     @Override
     public T execute() {
-        return (T) MVEL.executeExpression(this.executeExpress, ctx, typeParameterClass.getClass());
+        return MVEL.executeExpression(this.executeExpress, ctx, typeParameterClass);
     }
 }

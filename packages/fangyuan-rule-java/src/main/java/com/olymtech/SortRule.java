@@ -1,19 +1,25 @@
 package com.olymtech;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class SortRule<T> implements Rule<T> {
-    private List<Rule<T>> rules;
+    private Map<String, Rule<T>> rules;
     private Optional<Rule<T>> rule = Optional.empty();
 
-    SortRule(List<Rule<T>> rules){
+    SortRule(Map<String, Rule<T>> rules){
         this.rules = rules;
     }
 
     public boolean evaluate(final HashMap<String, Object> ctx) {
-        this.rule = this.rules.stream().filter(rule -> rule.evaluate(ctx)).findFirst();
+        this.rule = this
+                .rules
+                .entrySet()
+                .stream()
+                .filter(rule -> rule.getValue().evaluate(ctx))
+                .findFirst()
+                .map(entry -> entry.getValue());
         return this.rule.isPresent();
     }
 
