@@ -1,9 +1,11 @@
 package com.olymtech;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface Rule<T> {
-    boolean evaluate(HashMap<String, Object> ctx);
+    boolean evaluate(Map<String, Object> ctx);
+
+    boolean evaluate(Object ctx);
 
     T execute();
 }

@@ -1,6 +1,5 @@
 package com.olymtech;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,7 +11,18 @@ public class SortRule<T> implements Rule<T> {
         this.rules = rules;
     }
 
-    public boolean evaluate(final HashMap<String, Object> ctx) {
+    public boolean evaluate(final Map<String, Object> ctx) {
+        this.rule = this
+                .rules
+                .entrySet()
+                .stream()
+                .filter(rule -> rule.getValue().evaluate(ctx))
+                .findFirst()
+                .map(entry -> entry.getValue());
+        return this.rule.isPresent();
+    }
+
+    public boolean evaluate(final Object ctx) {
         this.rule = this
                 .rules
                 .entrySet()

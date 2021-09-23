@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RuleSortTest implements Rule<String> {
-    private Rule<String> rule;
-
+public class RuleSortTest extends AbstractRule<String> {
     RuleSortTest(Rule<String> rule) {
-        this.rule = rule;
+        super(rule);
     }
 
     public static void main(String[] args) {
@@ -36,15 +34,5 @@ public class RuleSortTest implements Rule<String> {
         ));
 
         return new RuleSortTest(new SortRule<>(rules));
-    }
-
-    @Override
-    public boolean evaluate(HashMap<String, Object> ctx) {
-        return rule.evaluate(ctx);
-    }
-
-    @Override
-    public String execute() {
-        return rule.execute();
     }
 }

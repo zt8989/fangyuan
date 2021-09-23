@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RuleTest implements Rule<List<String>> {
-    private Rule<List<String>> rule;
+public class RuleTest extends AbstractRule<List<String>> {
 
     RuleTest(Rule<List<String>> rule) {
-        this.rule = rule;
+        super(rule);
     }
 
     public static void main(String[] args) {
@@ -35,16 +34,6 @@ public class RuleTest implements Rule<List<String>> {
                 String.class
         ));
 
-        return new RuleTest(new ConcurrentRule(rules));
-    }
-
-    @Override
-    public boolean evaluate(HashMap<String, Object> ctx) {
-        return rule.evaluate(ctx);
-    }
-
-    @Override
-    public List<String> execute() {
-        return rule.execute();
+        return new RuleTest(new ConcurrentRule<>(rules));
     }
 }
