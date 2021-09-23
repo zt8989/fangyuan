@@ -15,6 +15,7 @@ export function gen(args: any) {
     }
 
     for (const file of files) {
+      const filename = path.parse(file).name;
       const content = await fs.promises.readFile(file, { encoding: "utf-8" });
       const chars = CharStreams.fromString(content);
       const lexer = new FangyuanLexer(chars);
@@ -28,21 +29,24 @@ export function gen(args: any) {
 
       const basePath = path.dirname(file);
       await fs.promises.writeFile(
-        path.join(basePath, `${visit.filename}.js`),
-        prettier.format(targetSource, { parser: "typescript" }),
+        path.join(basePath, `${filename}.ts`),
+        prettier.format(targetSource, {
+          parser: "typescript",
+          singleQuote: true,
+        }),
         {
           encoding: "utf-8",
         }
       );
-      if (visit.typescript) {
-        await fs.promises.writeFile(
-          path.join(basePath, `${visit.filename}.d.ts`),
-          prettier.format(visit.typescript, { parser: "typescript" }),
-          {
-            encoding: "utf-8",
-          }
-        );
-      }
+      // if (visit.typescript) {
+      //   await fs.promises.writeFile(
+      //     path.join(basePath, `${filename}.d.ts`),
+      //     prettier.format(visit.typescript, { parser: "typescript" }),
+      //     {
+      //       encoding: "utf-8",
+      //     }
+      //   );
+      // }
     }
   });
 }

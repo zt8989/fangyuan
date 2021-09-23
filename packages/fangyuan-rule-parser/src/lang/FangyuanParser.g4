@@ -126,17 +126,16 @@ expr:
     | expr bop = ('*' | '/' | '%') expr
     | expr bop = ('+' | '-') expr
     | expr bop = ('<=' | '>=' | '>' | '<') expr
-    | expr bop = ('==' | '!=' | IN_ | INCLUDES) expr
+    | expr bop = ('==' | '!=' | IN_ | INCLUDES | MATCH_) expr
     | expr bop = '&' expr
     | expr bop = '^' expr
     | expr bop = '|' expr
-    | expr bop = '&&' expr
     | expr bop = '||' expr
+    | expr bop = '&&' expr
     | expr bop = OR_ expr
     | expr bop = AND_ expr
     | LPAREN expr (COMMA expr)* RPAREN
-    | expr NOT_ IN_ expr
-    | expr NOT_ INCLUDES expr
+    | expr NOT_? (IN_ | INCLUDES | MATCH_) expr
 ;
 
 variableDeclaration:

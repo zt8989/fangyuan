@@ -8,7 +8,7 @@ build-js:
 run: 
 	[ ! -e dist ] || rm -r dist 
 	yarn tsc
-	node dist/index.js
+	node dist/cli.js gen:js test/rule.drl
 
 clean: 
 	$(MAKE) -C packages/fangyuan-rule-parser/src/lang clean

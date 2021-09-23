@@ -36,6 +36,10 @@ function inArrayOrObject(key: string, data: string[] | Object) {
   return Array.isArray(data) ? data.includes(key) : key in data;
 }
 
+function includes(data: string[] | Object, key: string) {
+  return !inArrayOrObject(key, data);
+}
+
 type Rule = (ctx: any) => { evaluate: () => boolean; execute: () => any };
 
 function concurrent(rules: Record<string, Rule>): Rule {
@@ -84,10 +88,93 @@ function sort(rules: Record<string, Rule>): Rule {
   };
 }
 
+function match(matchString: string, regex: string) {
+  return new RegExp(regex).test(matchString);
+}
+
 const ruleMap = {
-  concurrent,
-  sort,
+  concurrent: `function concurrent(rules: Record<string, Rule>) {
+    return (ctx: Context) => {
+      let validRules: [string, ReturnType<Rule>][] | undefined;
+  
+      function evaluate() {
+        validRules = Object.keys(rules)
+          .map((key) => [key, rules[key](ctx)] as [string, ReturnType<Rule>])
+          .filter(([key, obj]) => {
+            const result = obj.evaluate()
+            // isDev && debug(key + ":", result)
+            return result
+          });
+        return validRules.length > 0;
+      }
+  
+      function execute() {
+        if (!validRules) {
+          throw new Error("please confirm evaluate is true");
+        }
+        const result =  validRules.map(([,obj]) => obj.execute());
+        // isDev && debug("result:", result)
+        return result
+      }
+  
+      return { evaluate, execute };
+    };
+  }`,
+  sort: `function sort(rules: Record<string, Rule>): Rule {
+    return (ctx: Context) => {
+      let obj: ReturnType<Rule> | undefined;
+      function evaluate() {
+        for (let key of Object.keys(rules)) {
+          obj = rules[key](ctx);
+          if (obj.evaluate()) {
+            // isDev && debug(key + ":", true)
+            return true;
+          }
+          // isDev && debug(key + ":", false)
+        }
+        obj = undefined;
+        return false;
+      }
+      function execute() {
+        if (!obj) {
+          throw new Error("please confirm evaluate is true");
+        }
+        const result = obj.execute();
+        // isDev && debug("result:", result)
+        return result
+      }
+  
+      return { evaluate, execute };
+    };
+  }`,
+  [FangyuanParser.IN_]: `function inArrayOrObject(key: string, data: string[] | Object) {
+    return Array.isArray(data) ? data.includes(key) : key in data;
+  }`,
+  [FangyuanParser.INCLUDES]: `function includes(data: string[] | Object, key: string) {
+    return !inArrayOrObject(key, data);
+  }`,
+  [FangyuanParser.MATCH_]: `function match(matchString: string, regex: string) {
+    return new RegExp(regex).test(matchString);
+  }`,
 };
+
+const opMap: Record<number, string> = {
+  [FangyuanParser.IN_]: `inArrayOrObject`,
+  [FangyuanParser.INCLUDES]: `includes`,
+  [FangyuanParser.MATCH_]: `match`,
+};
+
+const banner = `/*
+* 此文件由规则文件自动生成请勿编辑
+*/
+
+const isDev = process.env.NODE_ENV !== 'production'
+// eslint-disable-next-line
+const debug = console.debug
+`;
+
+const ruleType = (type = "any") =>
+  `type Rule = (ctx: Context) => { evaluate: () => boolean; execute: () => ${type} };`;
 
 export class FangyuanVisitor
   extends AbstractParseTreeVisitor<string>
@@ -96,11 +183,12 @@ export class FangyuanVisitor
   type = "";
   types: string[] = [];
   variables: string[] = [];
-  shim: Record<string, Function> = {};
+  shim: Record<string, string> = {};
   ruleNames: string[] = [];
   count = 0;
-  typescript = "";
+  typescript: Record<string, string> = {};
   filename = "";
+  target = "es6";
 
   private getNewName() {
     const name = "rules$" + this.count++;
@@ -118,10 +206,23 @@ export class FangyuanVisitor
 
   visitMacroDeclaration(ctx: MacroDeclarationContext) {
     const ids = ctx.IDENTIFIER();
-    if (ids.length > 0 && ids[0].text === "typescript") {
-      ctx.STRING_LITERAL().forEach((str) => {
-        this.typescript += trimQuote(str.text) + "\n";
-      });
+    if (ids.length > 1 && ids[0].text === "typescript") {
+      if (ids[1].text === "context") {
+        let text = "";
+        ctx.STRING_LITERAL().forEach((str) => {
+          text += trimQuote(str.text) + "\n";
+        });
+        this.typescript["context"] = text;
+      }
+      if (ids[1].text === "execute") {
+        this.typescript["execute"] = trimQuote(ctx.STRING_LITERAL()[0].text);
+      }
+    }
+    if (!this.typescript["context"]) {
+      this.typescript["context"] = `type Context = any`;
+    }
+    if (!this.typescript["execute"]) {
+      this.typescript["execute"] = `any`;
     }
     return "";
   }
@@ -132,6 +233,7 @@ export class FangyuanVisitor
         FangyuanParser.IN_,
         FangyuanParser.NOT_,
         FangyuanParser.INCLUDES,
+        FangyuanParser.MATCH_,
       ].includes(ctx.symbol.type)
     )
       return ctx.text + " ";
@@ -149,14 +251,20 @@ export class FangyuanVisitor
     )
       ? "concurrent"
       : "sort";
-    const target = attributes.some(
+    const target = (this.target = attributes.some(
       (a) => a.IDENTIFIER().text === "target" && a.value().text === `"commonjs"`
     )
       ? "commonjs"
-      : "es6";
+      : "es6");
     this.shim[func] = ruleMap[func];
     const text = this.visitChildren(ctx);
     return (
+      banner +
+      "// prettier-ignore\n" +
+      this.typescript["context"] +
+      "\n" +
+      ruleType(this.typescript["execute"]) +
+      "\n" +
       Object.keys(this.shim)
         .map((key) => this.shim[key])
         .map((func) => func.toString())
@@ -164,8 +272,8 @@ export class FangyuanVisitor
       "\n" +
       text +
       `\n ${
-        target === "commonjs" ? "exports.rule" : "export const rule"
-      } = ${func}(${this.lastName()})`
+        target === "commonjs" ? "module.exports = " : "export default "
+      }${func}(${this.lastName()})`
     );
   }
 
@@ -173,7 +281,15 @@ export class FangyuanVisitor
   visitPackageDeclaration(ctx: PackageDeclarationContext) {
     const ids = ctx.IDENTIFIER();
     this.filename = ids[ids.length - 1].text;
-    return this.visitChildren(ctx) + "\nvar " + this.getNewName() + " = {}\n";
+    const varName = this.getNewName();
+    return (
+      this.visitChildren(ctx) +
+      `\n${
+        this.target === "commonjs"
+          ? `const ${varName} :Record<string, Rule> = exports.${varName} = {}`
+          : `export const ${varName} :Record<string, Rule> = {}`
+      }  \n`
+    );
   }
 
   // Visit a parse tree produced by FangyuanParser#declaration.
@@ -186,7 +302,9 @@ export class FangyuanVisitor
     const text = this.visitChildren(ctx);
     const types = this.types;
     this.types = [];
-    return `${this.lastName()}[${ctx.STRING_LITERAL().text}] = function(ctx){
+    return `${this.lastName()}[${
+      ctx.STRING_LITERAL().text
+    }] = function(ctx: Context){
   const { ${types.join(", ")} } = ctx  
       ${text}
       return { evaluate, execute };}\n`;
@@ -205,7 +323,11 @@ export class FangyuanVisitor
     const newName = this.getNewName();
     const child = this.visitChildren(ctx);
     this.ruleNames.pop();
-    return `var ${newName} = {}
+    return `${
+      this.target === "commonjs"
+        ? `const ${newName} :Record<string, Rule> = exports.${newName} = {}`
+        : `export const ${newName} :Record<string, Rule> = {}`
+    }
     ${preRule}[${name}] = ${func}(${newName})
     ${child}
     `;
@@ -242,7 +364,8 @@ export class FangyuanVisitor
 
   // Visit a parse tree produced by FangyuanParser#condition.
   visitCondition(ctx: ConditionContext) {
-    this.type = ucFirst(ctx.IDENTIFIER().text);
+    const typeDeclare = ctx.IDENTIFIER().text;
+    this.type = ucFirst(typeDeclare);
     this.types.push(this.type);
     return "(" + this.visitChildren(ctx) + ")";
   }
@@ -299,51 +422,119 @@ export class FangyuanVisitor
 
   // Visit a parse tree produced by FangyuanParser#expr.
   visitExpr(ctx: ExprContext) {
-    this.shim[FangyuanParser.IN_] = inArrayOrObject;
-
-    if (ctx.childCount === 1) {
-      return this.visitChildren(ctx);
-    }
-    if (ctx.childCount === 3) {
-      let op = ctx.getChild(1);
-      if (op instanceof TerminalNode && op.symbol.type === FangyuanParser.IN_) {
-        return `inArrayOrObject(${this.visit(ctx.getChild(0))}, ${this.visit(
-          ctx.getChild(2)
-        )})`;
-      }
-      if (
-        op instanceof TerminalNode &&
-        op.symbol.type === FangyuanParser.INCLUDES
-      ) {
-        return `inArrayOrObject(${this.visit(ctx.getChild(2))}, ${this.visit(
-          ctx.getChild(0)
-        )})`;
-      }
-      return (
-        this.visit(ctx.getChild(0)) +
-        " " +
-        ctx.getChild(1).text +
-        " " +
-        this.visit(ctx.getChild(2))
+    const ops: number[] = [];
+    const result: string[] = [];
+    let terminal = false;
+    const join = (ops: number[], result: string[]) => {
+      const current = result.pop();
+      const prev = result.pop();
+      this.shim[ops[ops.length - 1]] = (<any>ruleMap)[ops[ops.length - 1]];
+      result.push(
+        `${ops.length > 1 ? "!" : ""}${
+          opMap[ops[ops.length - 1]]
+        }(${prev}, ${current})`
       );
-    }
-    if (ctx.childCount === 4) {
-      let op = ctx.getChild(2);
-      if (op instanceof TerminalNode && op.symbol.type === FangyuanParser.IN_) {
-        return `!inArrayOrObject(${this.visit(ctx.getChild(0))}, ${this.visit(
-          ctx.getChild(3)
-        )})`;
+    };
+    for (let i = 0; i < ctx.childCount; i++) {
+      let op = ctx.getChild(i);
+      if (op instanceof TerminalNode) {
+        if ([FangyuanParser.NOT_].includes(op.symbol.type)) {
+          ops.push(op.symbol.type);
+        } else if (
+          [
+            FangyuanParser.IN_,
+            FangyuanParser.INCLUDES,
+            FangyuanParser.MATCH_,
+          ].includes(op.symbol.type)
+        ) {
+          ops.push(op.symbol.type);
+          terminal = true;
+        } else {
+          result.push(op.symbol.text!);
+          if (terminal) {
+            join(ops, result);
+            terminal = false;
+          }
+        }
+      } else {
+        const text = this.visit(op);
+        text && result.push(text);
+        if (terminal) {
+          join(ops, result);
+          terminal = false;
+        }
       }
-      if (
-        op instanceof TerminalNode &&
-        op.symbol.type === FangyuanParser.INCLUDES
-      ) {
-        return `!inArrayOrObject(${this.visit(ctx.getChild(3))}, ${this.visit(
-          ctx.getChild(0)
-        )})`;
-      }
     }
-    return this.visitChildren(ctx);
+    return result.join(" ");
+
+    // if (ctx.childCount === 1) {
+    //   return this.visitChildren(ctx);
+    // }
+    // if (ctx.childCount === 3) {
+    //   let op = ctx.getChild(1);
+    //   if (op! instanceof TerminalNode) {
+    //     return this.visitChildren(ctx);
+    //   }
+    //   if (op instanceof TerminalNode && op.symbol.type === FangyuanParser.IN_) {
+    //     this.shim[FangyuanParser.IN_] = ruleMap.inArrayOrObject;
+    //     return `inArrayOrObject(${this.visit(ctx.getChild(0))}, ${this.visit(
+    //       ctx.getChild(2)
+    //     )})`;
+    //   }
+    //   if (
+    //     op instanceof TerminalNode &&
+    //     op.symbol.type === FangyuanParser.INCLUDES
+    //   ) {
+    //     this.shim[FangyuanParser.IN_] = ruleMap.inArrayOrObject;
+    //     return `inArrayOrObject(${this.visit(ctx.getChild(2))}, ${this.visit(
+    //       ctx.getChild(0)
+    //     )})`;
+    //   }
+    //   if (
+    //     op instanceof TerminalNode &&
+    //     op.symbol.type === FangyuanParser.MATCH_
+    //   ) {
+    //     this.shim[FangyuanParser.MATCH_] = ruleMap.match;
+    //     return `match(${this.visit(ctx.getChild(2))}, ${this.visit(
+    //       ctx.getChild(0)
+    //     )})`;
+    //   }
+    //   return (
+    //     this.visit(ctx.getChild(0)) +
+    //     " " +
+    //     ctx.getChild(1).text +
+    //     " " +
+    //     this.visit(ctx.getChild(2))
+    //   );
+    // }
+    // if (ctx.childCount === 4) {
+    //   let op = ctx.getChild(2);
+    //   if (op instanceof TerminalNode && op.symbol.type === FangyuanParser.IN_) {
+    //     this.shim[FangyuanParser.IN_] = ruleMap.inArrayOrObject;
+    //     return `!inArrayOrObject(${this.visit(ctx.getChild(0))}, ${this.visit(
+    //       ctx.getChild(3)
+    //     )})`;
+    //   }
+    //   if (
+    //     op instanceof TerminalNode &&
+    //     op.symbol.type === FangyuanParser.INCLUDES
+    //   ) {
+    //     this.shim[FangyuanParser.IN_] = ruleMap.inArrayOrObject;
+    //     return `!inArrayOrObject(${this.visit(ctx.getChild(3))}, ${this.visit(
+    //       ctx.getChild(0)
+    //     )})`;
+    //   }
+    //   if (
+    //     op instanceof TerminalNode &&
+    //     op.symbol.type === FangyuanParser.MATCH_
+    //   ) {
+    //     this.shim[FangyuanParser.MATCH_] = ruleMap.match;
+    //     return `match(${this.visit(ctx.getChild(3))}, ${this.visit(
+    //       ctx.getChild(0)
+    //     )})`;
+    //   }
+    // }
+    // return this.visitChildren(ctx);
   }
 
   // Visit a parse tree produced by FangyuanParser#literal_value.
