@@ -13,7 +13,7 @@ run:
 run-java: 
 	[ ! -e dist ] || rm -r dist 
 	yarn tsc
-	node dist/cli.js gen:java test/RuleTest.drl
+	node dist/cli.js gen:java ../fangyuan-rule-java/src/**/*.drl
 
 clean: 
 	$(MAKE) -C packages/fangyuan-rule-parser/src/lang clean

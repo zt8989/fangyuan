@@ -7,6 +7,7 @@ import * as prettier from "prettier";
 import glob from "glob";
 import path from "path";
 import { FangyuanVisitorForJava } from "./FangyuanVisitorForJava";
+import mkdirp from "mkdirp";
 
 export function gen(args: any) {
   glob(args, async (err, files) => {
@@ -52,7 +53,7 @@ export function gen(args: any) {
   });
 }
 
-export function genJava(args: any) {
+export function genJava(args: any, option: any) {
   glob(args, async (err, files) => {
     if (err) {
       console.error(err);
@@ -60,6 +61,27 @@ export function genJava(args: any) {
     }
 
     for (const file of files) {
+      let output = (str: string) => "";
+
+      if (!option.output) {
+        if (
+          file.includes("/src/main/java") ||
+          file.includes("/src/test/java")
+        ) {
+          output = (p: string) => {
+            return path.join(
+              file.replace(/(\/src\/(main|test)\/java).*/, "$1"),
+              p.replace(/\./g, "/")
+            );
+          };
+        } else {
+          console.error("没有找到对应的java目录，请使用-o指定");
+          process.exit(1);
+        }
+      } else {
+        output = () => option.output;
+      }
+
       const filename = path.parse(file).name;
       const content = await fs.promises.readFile(file, { encoding: "utf-8" });
       const chars = CharStreams.fromString(content);
@@ -73,7 +95,8 @@ export function genJava(args: any) {
       visit.context["filename"] = filename;
       const targetSource = visit.visit(tree);
 
-      const basePath = path.dirname(file);
+      const basePath = output(visit.package);
+      mkdirp.sync(basePath);
       await fs.promises.writeFile(
         path.join(basePath, `${filename}.java`),
         targetSource

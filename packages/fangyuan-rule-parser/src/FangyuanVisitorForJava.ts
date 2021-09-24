@@ -120,6 +120,7 @@ export class FangyuanVisitorForJava
   variables: string[] = [];
   ruleNames: string[] = [];
   count = 0;
+  package = "";
   rulesStack = new Stack<Rule[]>();
   ruleRefStack = new Stack<Rule>();
   context = {
@@ -137,10 +138,6 @@ export class FangyuanVisitorForJava
     const name = "rules$" + this.count++;
     this.ruleNames.push(name);
     return name;
-  }
-
-  private lastName() {
-    return this.ruleNames[this.ruleNames.length - 1];
   }
 
   protected defaultResult(): string {
@@ -228,6 +225,7 @@ export class FangyuanVisitorForJava
   // Visit a parse tree produced by FangyuanParser#packageDeclaration.
   visitPackageDeclaration(ctx: PackageDeclarationContext) {
     const ids = ctx.IDENTIFIER();
+    this.package = ids.join(".");
     this.context["package"] = "package " + ids.join(".") + ";";
     return "";
   }

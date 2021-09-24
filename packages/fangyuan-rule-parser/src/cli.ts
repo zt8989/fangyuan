@@ -17,6 +17,7 @@ program
 
 program
   .command("gen:java <file>")
+  .option("-o, --output <dir>", "output target dir")
   .description("generate js from rule")
   .action(require("./index").genJava);
 
