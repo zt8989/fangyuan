@@ -1,4 +1,4 @@
-package feeLock
+package com.olymetch
 
 @typescript {
 	"import User from '@/knownledage/User'" 
