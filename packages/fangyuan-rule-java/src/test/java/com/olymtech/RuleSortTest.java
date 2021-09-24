@@ -3,6 +3,8 @@ package com.olymtech;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RuleSortTest extends AbstractRule<String> {
     RuleSortTest(Rule<String> rule) {
@@ -14,6 +16,8 @@ public class RuleSortTest extends AbstractRule<String> {
         boolean evaluate = instance.evaluate(null);
         String execute = instance.execute();
 
+        Matcher matcher = Pattern.compile("^add").matcher("add-123");
+        System.out.println(matcher.find());
         System.out.println(evaluate);
         System.out.println(execute);
     }
@@ -22,7 +26,7 @@ public class RuleSortTest extends AbstractRule<String> {
         Map<String, Rule<String>> rules = new HashMap<>();
 
         rules.put("rule1", new SimpleRule<String>(
-                "'add-' ~= '^add.*'",
+                "[\"a\"] contains \"a\"",
                 "'123'",
                 String.class
         ));

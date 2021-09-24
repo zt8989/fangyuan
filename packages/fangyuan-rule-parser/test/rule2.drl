@@ -1,0 +1,28 @@
+package feeLock
+
+@typescript:context {
+  "import { User } from '@/knowledge/user'" 
+	"import { FeeItem } from '@/knowledge/feeItem'" 
+  "type Context = { user: User; feeItem: FeeItem }"
+}
+@typescript:execute {
+  "string" 
+}
+
+desc "费用锁定规则"
+mode "concurrent"
+
+rule "是否当前干系人所属业务主体"
+  when 
+    User($userList: userRelOrgResultVoList)
+    FeeItem((id not match "^add-") && (orgId not in $userList))
+  then 
+    "非当前费用创建所属业务主体"
+end
+
+rule "子单费用"
+  when 
+    FeeItem(splitBillType == "child")
+  then 
+    "子单费用"
+end

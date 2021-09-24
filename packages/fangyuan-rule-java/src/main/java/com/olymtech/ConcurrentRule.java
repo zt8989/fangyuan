@@ -13,6 +13,7 @@ public class ConcurrentRule<T> implements Rule<List<T>> {
         this.rules = rules;
     }
 
+    @Override
     public boolean evaluate(final Map<String, Object> ctx) {
         this.validRules = this
                 .rules
@@ -25,18 +26,7 @@ public class ConcurrentRule<T> implements Rule<List<T>> {
         return this.validRules.size() > 0;
     }
 
-    public boolean evaluate(final Object ctx) {
-        this.validRules = this
-                .rules
-                .entrySet()
-                .stream()
-                .filter(rule -> rule.getValue().evaluate(ctx))
-                .collect(
-                        Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue())
-                );
-        return this.validRules.size() > 0;
-    }
-
+    @Override
     public List<T> execute(){
         return this.validRules.values().stream().map(rule -> rule.execute()).collect(Collectors.toList());
     }

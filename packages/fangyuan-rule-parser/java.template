@@ -1,0 +1,47 @@
+/*
+* 此文件由规则文件自动生成请勿编辑
+*/
+<%- package %>
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+<% for(let imp of imports.values()){ %>
+import <%-imp %>;
+<% } %>
+
+public class <%-filename %> extends AbstractRule<<%-composeRuleReturnType %>> {
+
+    RuleTest(Rule<<%-composeRuleReturnType %>> rule) {
+        super(rule);
+    }
+
+    static RuleTest getInstance(){
+        Map<String, Rule<<%-returnType %>>> <%-ruleName %> = new HashMap<>();
+
+        <%_ for(let { name, evaluate, execute, children } of rules){ -%>
+        <%_ if(children){ -%>
+        Map<String, Rule<<%-returnType %>>> <%-children.ruleName %> = new HashMap<>();
+        <%-ruleName %>.put("<%-name %>", new <%-children.composeRuleName %><>(<%- children.ruleName %>));
+
+        <%_ for(let { name, evaluate, execute } of children.rules){ -%>
+        <%-children.ruleName %>.put("<%-name %>", new SimpleRule<>(
+                "<%- evaluate %>",
+                "<%- execute %>",
+                <%-returnType.replace(/<.*>/, "") %>.class
+        ));
+
+        <%_ } -%>
+        <%_ } else { -%>
+        <%-ruleName %>.put("<%-name %>", new SimpleRule<>(
+                "<%- evaluate %>",
+                "<%- execute %>",
+                <%-returnType.replace(/<.*>/, "") %>.class
+        ));
+
+        <%_ } -%>
+        <%_ } -%>
+
+        return new <%-filename %>(new <%-composeRuleName %><>(<%-ruleName %>));
+    }
+}

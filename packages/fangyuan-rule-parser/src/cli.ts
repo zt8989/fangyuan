@@ -15,6 +15,11 @@ program
   .alias("gen:js")
   .action(require("./index").gen);
 
+program
+  .command("gen:java <file>")
+  .description("generate js from rule")
+  .action(require("./index").genJava);
+
 program.parse(process.argv);
 
 if (!program.args.length) {

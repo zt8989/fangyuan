@@ -15,11 +15,6 @@ public abstract class AbstractRule<T> implements Rule<T>{
     }
 
     @Override
-    public boolean evaluate(Object ctx) {
-        return rule.evaluate(ctx);
-    }
-
-    @Override
     public T execute() {
         return rule.execute();
     }

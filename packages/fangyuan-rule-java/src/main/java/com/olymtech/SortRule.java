@@ -11,6 +11,7 @@ public class SortRule<T> implements Rule<T> {
         this.rules = rules;
     }
 
+    @Override
     public boolean evaluate(final Map<String, Object> ctx) {
         this.rule = this
                 .rules
@@ -22,17 +23,7 @@ public class SortRule<T> implements Rule<T> {
         return this.rule.isPresent();
     }
 
-    public boolean evaluate(final Object ctx) {
-        this.rule = this
-                .rules
-                .entrySet()
-                .stream()
-                .filter(rule -> rule.getValue().evaluate(ctx))
-                .findFirst()
-                .map(entry -> entry.getValue());
-        return this.rule.isPresent();
-    }
-
+    @Override
     public T execute(){
         return this.rule.map(value -> value.execute()).orElse(null);
     }
