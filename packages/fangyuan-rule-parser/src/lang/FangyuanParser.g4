@@ -72,7 +72,7 @@ logistics:
 ;
 
 ruleRHS:
-    json (COMMA json)*
+    expr+
 ;
 
 attribute:
@@ -107,6 +107,10 @@ value:
     | BIND_PARAMETER_
 ;
 
+exprList:
+    expr (',' expr)*
+;
+
 /*
  SQLite understands the following binary operators, in order from highest to lowest precedence:
     ||
@@ -117,10 +121,12 @@ value:
     = == != <> IS IS NOT IN LIKE GLOB MATCH REGEXP
     AND
     OR
- */
-expr:
+ */ expr:
     literal_value
     | variableDeclaration
+    | expr bop = '.' ( IDENTIFIER | methodCall)
+    | expr '[' expr ']'
+    | methodCall
     | prefix = ('+' | '-' | '++' | '--') expr
     | prefix = ('~' | '!') expr
     | expr bop = ('*' | '/' | '%') expr
@@ -136,6 +142,25 @@ expr:
     | expr bop = AND_ expr
     | LPAREN expr (COMMA expr)* RPAREN
     | expr NOT_? (IN_ | INCLUDES | MATCH_) expr
+    | <assoc = right> expr bop = '?' expr ':' expr
+    | <assoc = right> expr bop = (
+        '='
+        | '+='
+        | '-='
+        | '*='
+        | '/='
+        | '&='
+        | '|='
+        | '^='
+        | '>>='
+        | '>>>='
+        | '<<='
+        | '%='
+    ) expr
+;
+
+methodCall:
+    IDENTIFIER '(' exprList? ')'
 ;
 
 variableDeclaration:

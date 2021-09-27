@@ -8,7 +8,7 @@ build-js:
 run: 
 	[ ! -e dist ] || rm -r dist 
 	yarn tsc
-	node dist/cli.js gen:js test/rule.drl
+	node dist/cli.js gen:js test/RuleTest.drl
 
 run-java: 
 	[ ! -e dist ] || rm -r dist 

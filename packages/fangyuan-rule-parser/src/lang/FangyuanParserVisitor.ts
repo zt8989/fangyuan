@@ -19,7 +19,9 @@ import { ObjContext } from "./FangyuanParser";
 import { PairContext } from "./FangyuanParser";
 import { ArrContext } from "./FangyuanParser";
 import { ValueContext } from "./FangyuanParser";
+import { ExprListContext } from "./FangyuanParser";
 import { ExprContext } from "./FangyuanParser";
+import { MethodCallContext } from "./FangyuanParser";
 import { VariableDeclarationContext } from "./FangyuanParser";
 import { Literal_valueContext } from "./FangyuanParser";
 import { Unary_operatorContext } from "./FangyuanParser";
@@ -147,11 +149,25 @@ export interface FangyuanParserVisitor<Result> extends ParseTreeVisitor<Result> 
 	visitValue?: (ctx: ValueContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `FangyuanParser.exprList`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExprList?: (ctx: ExprListContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `FangyuanParser.expr`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitExpr?: (ctx: ExprContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `FangyuanParser.methodCall`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMethodCall?: (ctx: MethodCallContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `FangyuanParser.variableDeclaration`.
