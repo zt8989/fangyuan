@@ -1,11 +1,7 @@
 /*
 * 此文件由规则文件自动生成请勿编辑
 */
-<%- package %>
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 <% for(let imp of imports.values()){ %>
 import <%-imp %>;
 <% } %>
@@ -17,11 +13,11 @@ public class <%-filename %> extends AbstractRule<<%-composeRuleReturnType %>> {
     }
 
     static RuleTest getInstance(){
-        Map<String, Rule<<%-returnType %>>> <%-ruleName %> = new LinkedHashMap<>();
+        Map<String, Rule<<%-returnType %>>> <%-ruleName %> = new HashMap<>();
 
         <%_ for(let { name, evaluate, execute, children } of rules){ -%>
         <%_ if(children){ -%>
-        Map<String, Rule<<%-returnType %>>> <%-children.ruleName %> = new LinkedHashMap<>();
+        Map<String, Rule<<%-returnType %>>> <%-children.ruleName %> = new HashMap<>();
         <%-ruleName %>.put("<%-name %>", new <%-children.composeRuleName %><>(<%- children.ruleName %>));
 
         <%_ for(let { name, evaluate, execute } of children.rules){ -%>

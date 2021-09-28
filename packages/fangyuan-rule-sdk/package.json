@@ -1,0 +1,20 @@
+{
+  "name": "fangyuan-rule",
+  "version": "1.0.0",
+  "description": "rule engine sdk",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "author": "251027705@qq.com (zhouteng)",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
