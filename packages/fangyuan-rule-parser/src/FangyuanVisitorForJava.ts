@@ -307,7 +307,12 @@ export class FangyuanVisitorForJava
     const typeDeclare = ctx.IDENTIFIER().text;
     this.type = ucFirst(typeDeclare);
     this.types.push(this.type);
-    return "(" + this.visitChildren(ctx) + ")";
+    const children = this.visitChildren(ctx);
+    const bind = ctx.BIND_PARAMETER_();
+    if (bind) {
+      this.variables.push(`let ${ctx.BIND_PARAMETER_()?.text} = ${this.type}`);
+    }
+    return "(" + children + ")";
   }
 
   // Visit a parse tree produced by FangyuanParser#logistics.
@@ -326,11 +331,11 @@ export class FangyuanVisitorForJava
     this.variables = [];
     this.ruleRefStack.peek().execute =
       (variables.length > 0 ? variables.join(";") + ";" : "") +
-      (result.length === 1
-        ? result[0]
-        : `${tupeBasePackage}.${tuples[result.length - 1]}.with(${result.join(
-            ", "
-          )})`);
+      result
+        .map((x, index, arr) => {
+          return arr.length - 1 === index ? `return ${x};` : x;
+        })
+        .join("\n");
     return "";
   }
 
@@ -408,7 +413,7 @@ export class FangyuanVisitorForJava
         }
       }
     }
-    return result.join(" ");
+    return result.join("");
   }
 
   // Visit a parse tree produced by FangyuanParser#literal_value.
