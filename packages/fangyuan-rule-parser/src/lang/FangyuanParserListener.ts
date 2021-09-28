@@ -19,7 +19,9 @@ import { ObjContext } from "./FangyuanParser";
 import { PairContext } from "./FangyuanParser";
 import { ArrContext } from "./FangyuanParser";
 import { ValueContext } from "./FangyuanParser";
+import { ExprListContext } from "./FangyuanParser";
 import { ExprContext } from "./FangyuanParser";
+import { MethodCallContext } from "./FangyuanParser";
 import { VariableDeclarationContext } from "./FangyuanParser";
 import { Literal_valueContext } from "./FangyuanParser";
 import { Unary_operatorContext } from "./FangyuanParser";
@@ -208,6 +210,17 @@ export interface FangyuanParserListener extends ParseTreeListener {
 	exitValue?: (ctx: ValueContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `FangyuanParser.exprList`.
+	 * @param ctx the parse tree
+	 */
+	enterExprList?: (ctx: ExprListContext) => void;
+	/**
+	 * Exit a parse tree produced by `FangyuanParser.exprList`.
+	 * @param ctx the parse tree
+	 */
+	exitExprList?: (ctx: ExprListContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `FangyuanParser.expr`.
 	 * @param ctx the parse tree
 	 */
@@ -217,6 +230,17 @@ export interface FangyuanParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitExpr?: (ctx: ExprContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `FangyuanParser.methodCall`.
+	 * @param ctx the parse tree
+	 */
+	enterMethodCall?: (ctx: MethodCallContext) => void;
+	/**
+	 * Exit a parse tree produced by `FangyuanParser.methodCall`.
+	 * @param ctx the parse tree
+	 */
+	exitMethodCall?: (ctx: MethodCallContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `FangyuanParser.variableDeclaration`.

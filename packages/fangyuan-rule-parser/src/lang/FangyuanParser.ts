@@ -174,17 +174,19 @@ export class FangyuanParser extends Parser {
 	public static readonly RULE_pair = 13;
 	public static readonly RULE_arr = 14;
 	public static readonly RULE_value = 15;
-	public static readonly RULE_expr = 16;
-	public static readonly RULE_variableDeclaration = 17;
-	public static readonly RULE_literal_value = 18;
-	public static readonly RULE_unary_operator = 19;
-	public static readonly RULE_any_name = 20;
+	public static readonly RULE_exprList = 16;
+	public static readonly RULE_expr = 17;
+	public static readonly RULE_methodCall = 18;
+	public static readonly RULE_variableDeclaration = 19;
+	public static readonly RULE_literal_value = 20;
+	public static readonly RULE_unary_operator = 21;
+	public static readonly RULE_any_name = 22;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"parse", "macroDeclaration", "packageDeclaration", "declaration", "rulesetDeclaration", 
 		"ruleDeclaration", "ruleLHS", "condition", "logistics", "ruleRHS", "attribute", 
-		"json", "obj", "pair", "arr", "value", "expr", "variableDeclaration", 
-		"literal_value", "unary_operator", "any_name",
+		"json", "obj", "pair", "arr", "value", "exprList", "expr", "methodCall", 
+		"variableDeclaration", "literal_value", "unary_operator", "any_name",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -261,59 +263,59 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 43;
+			this.state = 47;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FangyuanParser.PACKAGE) {
 				{
-				this.state = 42;
+				this.state = 46;
 				this.packageDeclaration();
 				}
 			}
 
-			this.state = 48;
+			this.state = 52;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.AT) {
 				{
 				{
-				this.state = 45;
+				this.state = 49;
 				this.macroDeclaration();
 				}
 				}
-				this.state = 50;
+				this.state = 54;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 54;
+			this.state = 58;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.IDENTIFIER) {
 				{
 				{
-				this.state = 51;
+				this.state = 55;
 				this.attribute();
 				}
 				}
-				this.state = 56;
+				this.state = 60;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 60;
+			this.state = 64;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.RULESET || _la === FangyuanParser.RULE) {
 				{
 				{
-				this.state = 57;
+				this.state = 61;
 				this.declaration();
 				}
 				}
-				this.state = 62;
+				this.state = 66;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 63;
+			this.state = 67;
 			this.match(FangyuanParser.EOF);
 			}
 		}
@@ -339,39 +341,39 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 65;
-			this.match(FangyuanParser.AT);
-			this.state = 66;
-			this.match(FangyuanParser.IDENTIFIER);
 			this.state = 69;
+			this.match(FangyuanParser.AT);
+			this.state = 70;
+			this.match(FangyuanParser.IDENTIFIER);
+			this.state = 73;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FangyuanParser.COLON) {
 				{
-				this.state = 67;
+				this.state = 71;
 				this.match(FangyuanParser.COLON);
-				this.state = 68;
+				this.state = 72;
 				this.match(FangyuanParser.IDENTIFIER);
 				}
 			}
 
-			this.state = 71;
+			this.state = 75;
 			this.match(FangyuanParser.LBRACE);
-			this.state = 73;
+			this.state = 77;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 72;
+				this.state = 76;
 				this.match(FangyuanParser.STRING_LITERAL);
 				}
 				}
-				this.state = 75;
+				this.state = 79;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			} while (_la === FangyuanParser.STRING_LITERAL);
-			this.state = 77;
+			this.state = 81;
 			this.match(FangyuanParser.RBRACE);
 			}
 		}
@@ -397,27 +399,27 @@ export class FangyuanParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 79;
+			this.state = 83;
 			this.match(FangyuanParser.PACKAGE);
-			this.state = 84;
+			this.state = 88;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 6, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 80;
+					this.state = 84;
 					this.match(FangyuanParser.IDENTIFIER);
-					this.state = 81;
+					this.state = 85;
 					this.match(FangyuanParser.DOT);
 					}
 					}
 				}
-				this.state = 86;
+				this.state = 90;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 6, this._ctx);
 			}
-			this.state = 87;
+			this.state = 91;
 			this.match(FangyuanParser.IDENTIFIER);
 			}
 		}
@@ -440,20 +442,20 @@ export class FangyuanParser extends Parser {
 		let _localctx: DeclarationContext = new DeclarationContext(this._ctx, this.state);
 		this.enterRule(_localctx, 6, FangyuanParser.RULE_declaration);
 		try {
-			this.state = 91;
+			this.state = 95;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case FangyuanParser.RULE:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 89;
+				this.state = 93;
 				this.ruleDeclaration();
 				}
 				break;
 			case FangyuanParser.RULESET:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 90;
+				this.state = 94;
 				this.rulesetDeclaration();
 				}
 				break;
@@ -483,39 +485,39 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 93;
+			this.state = 97;
 			this.match(FangyuanParser.RULESET);
-			this.state = 94;
-			this.match(FangyuanParser.STRING_LITERAL);
 			this.state = 98;
+			this.match(FangyuanParser.STRING_LITERAL);
+			this.state = 102;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.IDENTIFIER) {
 				{
 				{
-				this.state = 95;
+				this.state = 99;
 				this.attribute();
-				}
-				}
-				this.state = 100;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-			}
-			this.state = 102;
-			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			do {
-				{
-				{
-				this.state = 101;
-				this.ruleDeclaration();
 				}
 				}
 				this.state = 104;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la === FangyuanParser.RULE);
+			}
 			this.state = 106;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			do {
+				{
+				{
+				this.state = 105;
+				this.ruleDeclaration();
+				}
+				}
+				this.state = 108;
+				this._errHandler.sync(this);
+				_la = this._input.LA(1);
+			} while (_la === FangyuanParser.RULE);
+			this.state = 110;
 			this.match(FangyuanParser.END);
 			}
 		}
@@ -541,33 +543,33 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 108;
+			this.state = 112;
 			this.match(FangyuanParser.RULE);
-			this.state = 109;
-			this.match(FangyuanParser.STRING_LITERAL);
 			this.state = 113;
+			this.match(FangyuanParser.STRING_LITERAL);
+			this.state = 117;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.IDENTIFIER) {
 				{
 				{
-				this.state = 110;
+				this.state = 114;
 				this.attribute();
 				}
 				}
-				this.state = 115;
+				this.state = 119;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 116;
-			this.match(FangyuanParser.WHEN);
-			this.state = 117;
-			this.ruleLHS();
-			this.state = 118;
-			this.match(FangyuanParser.THEN);
-			this.state = 119;
-			this.ruleRHS();
 			this.state = 120;
+			this.match(FangyuanParser.WHEN);
+			this.state = 121;
+			this.ruleLHS();
+			this.state = 122;
+			this.match(FangyuanParser.THEN);
+			this.state = 123;
+			this.ruleRHS();
+			this.state = 124;
 			this.match(FangyuanParser.END);
 			}
 		}
@@ -593,17 +595,17 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 125;
+			this.state = 129;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.BIND_PARAMETER_ || _la === FangyuanParser.NOT_ || _la === FangyuanParser.AND || _la === FangyuanParser.OR || _la === FangyuanParser.IDENTIFIER) {
 				{
 				{
-				this.state = 122;
+				this.state = 126;
 				this.condition();
 				}
 				}
-				this.state = 127;
+				this.state = 131;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -631,51 +633,51 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 129;
+			this.state = 133;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FangyuanParser.NOT_ || _la === FangyuanParser.AND || _la === FangyuanParser.OR) {
 				{
-				this.state = 128;
+				this.state = 132;
 				this.logistics();
 				}
 			}
 
-			this.state = 133;
+			this.state = 137;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FangyuanParser.BIND_PARAMETER_) {
 				{
-				this.state = 131;
+				this.state = 135;
 				this.match(FangyuanParser.BIND_PARAMETER_);
-				this.state = 132;
+				this.state = 136;
 				this.match(FangyuanParser.COLON);
 				}
 			}
 
-			this.state = 135;
+			this.state = 139;
 			this.match(FangyuanParser.IDENTIFIER);
-			this.state = 136;
+			this.state = 140;
 			this.match(FangyuanParser.LPAREN);
-			this.state = 137;
+			this.state = 141;
 			this.expr(0);
-			this.state = 142;
+			this.state = 146;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === FangyuanParser.COMMA) {
 				{
 				{
-				this.state = 138;
+				this.state = 142;
 				this.match(FangyuanParser.COMMA);
-				this.state = 139;
+				this.state = 143;
 				this.expr(0);
 				}
 				}
-				this.state = 144;
+				this.state = 148;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 145;
+			this.state = 149;
 			this.match(FangyuanParser.RPAREN);
 			}
 		}
@@ -701,7 +703,7 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 147;
+			this.state = 151;
 			_la = this._input.LA(1);
 			if (!(_la === FangyuanParser.NOT_ || _la === FangyuanParser.AND || _la === FangyuanParser.OR)) {
 			this._errHandler.recoverInline(this);
@@ -737,24 +739,20 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 149;
-			this.json();
 			this.state = 154;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la === FangyuanParser.COMMA) {
+			do {
 				{
 				{
-				this.state = 150;
-				this.match(FangyuanParser.COMMA);
-				this.state = 151;
-				this.json();
+				this.state = 153;
+				this.expr(0);
 				}
 				}
 				this.state = 156;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			}
+			} while (_la === FangyuanParser.BIND_PARAMETER_ || _la === FangyuanParser.JSON_NUMBER || ((((_la - 76)) & ~0x1F) === 0 && ((1 << (_la - 76)) & ((1 << (FangyuanParser.BOOL_LITERAL - 76)) | (1 << (FangyuanParser.STRING_LITERAL - 76)) | (1 << (FangyuanParser.NULL_LITERAL - 76)) | (1 << (FangyuanParser.LPAREN - 76)) | (1 << (FangyuanParser.LBRACE - 76)) | (1 << (FangyuanParser.LBRACK - 76)) | (1 << (FangyuanParser.INC - 76)) | (1 << (FangyuanParser.DEC - 76)) | (1 << (FangyuanParser.BANG - 76)) | (1 << (FangyuanParser.TILDE - 76)) | (1 << (FangyuanParser.ADD - 76)) | (1 << (FangyuanParser.SUB - 76)))) !== 0) || _la === FangyuanParser.IDENTIFIER);
 			}
 		}
 		catch (re) {
@@ -778,9 +776,9 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 157;
-			this.match(FangyuanParser.IDENTIFIER);
 			this.state = 158;
+			this.match(FangyuanParser.IDENTIFIER);
+			this.state = 159;
 			this.value();
 			}
 		}
@@ -805,7 +803,7 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 160;
+			this.state = 161;
 			this.value();
 			}
 		}
@@ -828,17 +826,17 @@ export class FangyuanParser extends Parser {
 		let _localctx: ObjContext = new ObjContext(this._ctx, this.state);
 		this.enterRule(_localctx, 24, FangyuanParser.RULE_obj);
 		try {
-			this.state = 168;
+			this.state = 169;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 16, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 162;
-				this.match(FangyuanParser.LBRACE);
 				this.state = 163;
-				this.pair();
+				this.match(FangyuanParser.LBRACE);
 				this.state = 164;
+				this.pair();
+				this.state = 165;
 				this.match(FangyuanParser.RBRACE);
 				}
 				break;
@@ -846,9 +844,9 @@ export class FangyuanParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 166;
-				this.match(FangyuanParser.LBRACE);
 				this.state = 167;
+				this.match(FangyuanParser.LBRACE);
+				this.state = 168;
 				this.match(FangyuanParser.RBRACE);
 				}
 				break;
@@ -875,11 +873,11 @@ export class FangyuanParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 170;
-			this.match(FangyuanParser.STRING_LITERAL);
 			this.state = 171;
-			this.match(FangyuanParser.COLON);
+			this.match(FangyuanParser.STRING_LITERAL);
 			this.state = 172;
+			this.match(FangyuanParser.COLON);
+			this.state = 173;
 			this.value();
 			}
 		}
@@ -903,33 +901,33 @@ export class FangyuanParser extends Parser {
 		this.enterRule(_localctx, 28, FangyuanParser.RULE_arr);
 		let _la: number;
 		try {
-			this.state = 187;
+			this.state = 188;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 18, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 174;
-				this.match(FangyuanParser.LBRACK);
 				this.state = 175;
+				this.match(FangyuanParser.LBRACK);
+				this.state = 176;
 				this.value();
-				this.state = 180;
+				this.state = 181;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la === FangyuanParser.COMMA) {
 					{
 					{
-					this.state = 176;
-					this.match(FangyuanParser.COMMA);
 					this.state = 177;
+					this.match(FangyuanParser.COMMA);
+					this.state = 178;
 					this.value();
 					}
 					}
-					this.state = 182;
+					this.state = 183;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
-				this.state = 183;
+				this.state = 184;
 				this.match(FangyuanParser.RBRACK);
 				}
 				break;
@@ -937,9 +935,9 @@ export class FangyuanParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 185;
-				this.match(FangyuanParser.LBRACK);
 				this.state = 186;
+				this.match(FangyuanParser.LBRACK);
+				this.state = 187;
 				this.match(FangyuanParser.RBRACK);
 				}
 				break;
@@ -964,60 +962,102 @@ export class FangyuanParser extends Parser {
 		let _localctx: ValueContext = new ValueContext(this._ctx, this.state);
 		this.enterRule(_localctx, 30, FangyuanParser.RULE_value);
 		try {
-			this.state = 196;
+			this.state = 197;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case FangyuanParser.STRING_LITERAL:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 189;
+				this.state = 190;
 				this.match(FangyuanParser.STRING_LITERAL);
 				}
 				break;
 			case FangyuanParser.JSON_NUMBER:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 190;
+				this.state = 191;
 				this.match(FangyuanParser.JSON_NUMBER);
 				}
 				break;
 			case FangyuanParser.LBRACE:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 191;
+				this.state = 192;
 				this.obj();
 				}
 				break;
 			case FangyuanParser.LBRACK:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 192;
+				this.state = 193;
 				this.arr();
 				}
 				break;
 			case FangyuanParser.BOOL_LITERAL:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 193;
+				this.state = 194;
 				this.match(FangyuanParser.BOOL_LITERAL);
 				}
 				break;
 			case FangyuanParser.NULL_LITERAL:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 194;
+				this.state = 195;
 				this.match(FangyuanParser.NULL_LITERAL);
 				}
 				break;
 			case FangyuanParser.BIND_PARAMETER_:
 				this.enterOuterAlt(_localctx, 7);
 				{
-				this.state = 195;
+				this.state = 196;
 				this.match(FangyuanParser.BIND_PARAMETER_);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public exprList(): ExprListContext {
+		let _localctx: ExprListContext = new ExprListContext(this._ctx, this.state);
+		this.enterRule(_localctx, 32, FangyuanParser.RULE_exprList);
+		let _la: number;
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 199;
+			this.expr(0);
+			this.state = 204;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			while (_la === FangyuanParser.COMMA) {
+				{
+				{
+				this.state = 200;
+				this.match(FangyuanParser.COMMA);
+				this.state = 201;
+				this.expr(0);
+				}
+				}
+				this.state = 206;
+				this._errHandler.sync(this);
+				_la = this._input.LA(1);
+			}
 			}
 		}
 		catch (re) {
@@ -1047,33 +1087,40 @@ export class FangyuanParser extends Parser {
 		let _parentState: number = this.state;
 		let _localctx: ExprContext = new ExprContext(this._ctx, _parentState);
 		let _prevctx: ExprContext = _localctx;
-		let _startState: number = 32;
-		this.enterRecursionRule(_localctx, 32, FangyuanParser.RULE_expr, _p);
+		let _startState: number = 34;
+		this.enterRecursionRule(_localctx, 34, FangyuanParser.RULE_expr, _p);
 		let _la: number;
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 216;
+			this.state = 226;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 21, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 22, this._ctx) ) {
 			case 1:
 				{
-				this.state = 199;
+				this.state = 208;
 				this.literal_value();
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 200;
+				this.state = 209;
 				this.variableDeclaration();
 				}
 				break;
 
 			case 3:
 				{
-				this.state = 201;
+				this.state = 210;
+				this.methodCall();
+				}
+				break;
+
+			case 4:
+				{
+				this.state = 211;
 				_localctx._prefix = this._input.LT(1);
 				_la = this._input.LA(1);
 				if (!(((((_la - 95)) & ~0x1F) === 0 && ((1 << (_la - 95)) & ((1 << (FangyuanParser.INC - 95)) | (1 << (FangyuanParser.DEC - 95)) | (1 << (FangyuanParser.ADD - 95)) | (1 << (FangyuanParser.SUB - 95)))) !== 0))) {
@@ -1086,14 +1133,14 @@ export class FangyuanParser extends Parser {
 					this._errHandler.reportMatch(this);
 					this.consume();
 				}
-				this.state = 202;
-				this.expr(15);
+				this.state = 212;
+				this.expr(17);
 				}
 				break;
 
-			case 4:
+			case 5:
 				{
-				this.state = 203;
+				this.state = 213;
 				_localctx._prefix = this._input.LT(1);
 				_la = this._input.LA(1);
 				if (!(_la === FangyuanParser.BANG || _la === FangyuanParser.TILDE)) {
@@ -1106,42 +1153,42 @@ export class FangyuanParser extends Parser {
 					this._errHandler.reportMatch(this);
 					this.consume();
 				}
-				this.state = 204;
-				this.expr(14);
+				this.state = 214;
+				this.expr(16);
 				}
 				break;
 
-			case 5:
+			case 6:
 				{
-				this.state = 205;
+				this.state = 215;
 				this.match(FangyuanParser.LPAREN);
-				this.state = 206;
+				this.state = 216;
 				this.expr(0);
-				this.state = 211;
+				this.state = 221;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la === FangyuanParser.COMMA) {
 					{
 					{
-					this.state = 207;
+					this.state = 217;
 					this.match(FangyuanParser.COMMA);
-					this.state = 208;
+					this.state = 218;
 					this.expr(0);
 					}
 					}
-					this.state = 213;
+					this.state = 223;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
-				this.state = 214;
+				this.state = 224;
 				this.match(FangyuanParser.RPAREN);
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 259;
+			this.state = 289;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 24, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -1149,18 +1196,18 @@ export class FangyuanParser extends Parser {
 					}
 					_prevctx = _localctx;
 					{
-					this.state = 257;
+					this.state = 287;
 					this._errHandler.sync(this);
-					switch ( this.interpreter.adaptivePredict(this._input, 23, this._ctx) ) {
+					switch ( this.interpreter.adaptivePredict(this._input, 25, this._ctx) ) {
 					case 1:
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 218;
-						if (!(this.precpred(this._ctx, 13))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 13)");
+						this.state = 228;
+						if (!(this.precpred(this._ctx, 15))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 15)");
 						}
-						this.state = 219;
+						this.state = 229;
 						_localctx._bop = this._input.LT(1);
 						_la = this._input.LA(1);
 						if (!(((((_la - 106)) & ~0x1F) === 0 && ((1 << (_la - 106)) & ((1 << (FangyuanParser.MUL - 106)) | (1 << (FangyuanParser.DIV - 106)) | (1 << (FangyuanParser.MOD - 106)))) !== 0))) {
@@ -1173,8 +1220,8 @@ export class FangyuanParser extends Parser {
 							this._errHandler.reportMatch(this);
 							this.consume();
 						}
-						this.state = 220;
-						this.expr(14);
+						this.state = 230;
+						this.expr(16);
 						}
 						break;
 
@@ -1182,11 +1229,11 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 221;
-						if (!(this.precpred(this._ctx, 12))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 12)");
+						this.state = 231;
+						if (!(this.precpred(this._ctx, 14))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 14)");
 						}
-						this.state = 222;
+						this.state = 232;
 						_localctx._bop = this._input.LT(1);
 						_la = this._input.LA(1);
 						if (!(_la === FangyuanParser.ADD || _la === FangyuanParser.SUB)) {
@@ -1199,8 +1246,8 @@ export class FangyuanParser extends Parser {
 							this._errHandler.reportMatch(this);
 							this.consume();
 						}
-						this.state = 223;
-						this.expr(13);
+						this.state = 233;
+						this.expr(15);
 						}
 						break;
 
@@ -1208,11 +1255,11 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 224;
-						if (!(this.precpred(this._ctx, 11))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 11)");
+						this.state = 234;
+						if (!(this.precpred(this._ctx, 13))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 13)");
 						}
-						this.state = 225;
+						this.state = 235;
 						_localctx._bop = this._input.LT(1);
 						_la = this._input.LA(1);
 						if (!(((((_la - 90)) & ~0x1F) === 0 && ((1 << (_la - 90)) & ((1 << (FangyuanParser.LE - 90)) | (1 << (FangyuanParser.GE - 90)) | (1 << (FangyuanParser.GT - 90)) | (1 << (FangyuanParser.LT - 90)))) !== 0))) {
@@ -1225,8 +1272,8 @@ export class FangyuanParser extends Parser {
 							this._errHandler.reportMatch(this);
 							this.consume();
 						}
-						this.state = 226;
-						this.expr(12);
+						this.state = 236;
+						this.expr(14);
 						}
 						break;
 
@@ -1234,11 +1281,11 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 227;
-						if (!(this.precpred(this._ctx, 10))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 10)");
+						this.state = 237;
+						if (!(this.precpred(this._ctx, 12))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 12)");
 						}
-						this.state = 228;
+						this.state = 238;
 						_localctx._bop = this._input.LT(1);
 						_la = this._input.LA(1);
 						if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FangyuanParser.IN_) | (1 << FangyuanParser.MATCH_) | (1 << FangyuanParser.INCLUDES))) !== 0) || _la === FangyuanParser.EQUAL || _la === FangyuanParser.NOTEQUAL)) {
@@ -1251,8 +1298,8 @@ export class FangyuanParser extends Parser {
 							this._errHandler.reportMatch(this);
 							this.consume();
 						}
-						this.state = 229;
-						this.expr(11);
+						this.state = 239;
+						this.expr(13);
 						}
 						break;
 
@@ -1260,14 +1307,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 230;
-						if (!(this.precpred(this._ctx, 9))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 9)");
+						this.state = 240;
+						if (!(this.precpred(this._ctx, 11))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 11)");
 						}
-						this.state = 231;
+						this.state = 241;
 						_localctx._bop = this.match(FangyuanParser.BITAND);
-						this.state = 232;
-						this.expr(10);
+						this.state = 242;
+						this.expr(12);
 						}
 						break;
 
@@ -1275,14 +1322,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 233;
-						if (!(this.precpred(this._ctx, 8))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 8)");
+						this.state = 243;
+						if (!(this.precpred(this._ctx, 10))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 10)");
 						}
-						this.state = 234;
+						this.state = 244;
 						_localctx._bop = this.match(FangyuanParser.CARET);
-						this.state = 235;
-						this.expr(9);
+						this.state = 245;
+						this.expr(11);
 						}
 						break;
 
@@ -1290,14 +1337,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 236;
-						if (!(this.precpred(this._ctx, 7))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 7)");
+						this.state = 246;
+						if (!(this.precpred(this._ctx, 9))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 9)");
 						}
-						this.state = 237;
+						this.state = 247;
 						_localctx._bop = this.match(FangyuanParser.BITOR);
-						this.state = 238;
-						this.expr(8);
+						this.state = 248;
+						this.expr(10);
 						}
 						break;
 
@@ -1305,14 +1352,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 239;
-						if (!(this.precpred(this._ctx, 6))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 6)");
+						this.state = 249;
+						if (!(this.precpred(this._ctx, 8))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 8)");
 						}
-						this.state = 240;
+						this.state = 250;
 						_localctx._bop = this.match(FangyuanParser.OR);
-						this.state = 241;
-						this.expr(7);
+						this.state = 251;
+						this.expr(9);
 						}
 						break;
 
@@ -1320,14 +1367,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 242;
-						if (!(this.precpred(this._ctx, 5))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 5)");
+						this.state = 252;
+						if (!(this.precpred(this._ctx, 7))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 7)");
 						}
-						this.state = 243;
+						this.state = 253;
 						_localctx._bop = this.match(FangyuanParser.AND);
-						this.state = 244;
-						this.expr(6);
+						this.state = 254;
+						this.expr(8);
 						}
 						break;
 
@@ -1335,14 +1382,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 245;
-						if (!(this.precpred(this._ctx, 4))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 4)");
+						this.state = 255;
+						if (!(this.precpred(this._ctx, 6))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 6)");
 						}
-						this.state = 246;
+						this.state = 256;
 						_localctx._bop = this.match(FangyuanParser.OR_);
-						this.state = 247;
-						this.expr(5);
+						this.state = 257;
+						this.expr(7);
 						}
 						break;
 
@@ -1350,14 +1397,14 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 248;
-						if (!(this.precpred(this._ctx, 3))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 3)");
+						this.state = 258;
+						if (!(this.precpred(this._ctx, 5))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 5)");
 						}
-						this.state = 249;
+						this.state = 259;
 						_localctx._bop = this.match(FangyuanParser.AND_);
-						this.state = 250;
-						this.expr(4);
+						this.state = 260;
+						this.expr(6);
 						}
 						break;
 
@@ -1365,21 +1412,21 @@ export class FangyuanParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
-						this.state = 251;
-						if (!(this.precpred(this._ctx, 1))) {
-							throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
+						this.state = 261;
+						if (!(this.precpred(this._ctx, 3))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 3)");
 						}
-						this.state = 253;
+						this.state = 263;
 						this._errHandler.sync(this);
 						_la = this._input.LA(1);
 						if (_la === FangyuanParser.NOT_) {
 							{
-							this.state = 252;
+							this.state = 262;
 							this.match(FangyuanParser.NOT_);
 							}
 						}
 
-						this.state = 255;
+						this.state = 265;
 						_la = this._input.LA(1);
 						if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FangyuanParser.IN_) | (1 << FangyuanParser.MATCH_) | (1 << FangyuanParser.INCLUDES))) !== 0))) {
 						this._errHandler.recoverInline(this);
@@ -1391,16 +1438,108 @@ export class FangyuanParser extends Parser {
 							this._errHandler.reportMatch(this);
 							this.consume();
 						}
-						this.state = 256;
+						this.state = 266;
+						this.expr(4);
+						}
+						break;
+
+					case 13:
+						{
+						_localctx = new ExprContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
+						this.state = 267;
+						if (!(this.precpred(this._ctx, 2))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 2)");
+						}
+						this.state = 268;
+						_localctx._bop = this.match(FangyuanParser.QUESTION);
+						this.state = 269;
+						this.expr(0);
+						this.state = 270;
+						this.match(FangyuanParser.COLON);
+						this.state = 271;
 						this.expr(2);
+						}
+						break;
+
+					case 14:
+						{
+						_localctx = new ExprContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
+						this.state = 273;
+						if (!(this.precpred(this._ctx, 1))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 1)");
+						}
+						this.state = 274;
+						_localctx._bop = this._input.LT(1);
+						_la = this._input.LA(1);
+						if (!(((((_la - 97)) & ~0x1F) === 0 && ((1 << (_la - 97)) & ((1 << (FangyuanParser.ASSIGN - 97)) | (1 << (FangyuanParser.ADD_ASSIGN - 97)) | (1 << (FangyuanParser.SUB_ASSIGN - 97)) | (1 << (FangyuanParser.MUL_ASSIGN - 97)) | (1 << (FangyuanParser.DIV_ASSIGN - 97)) | (1 << (FangyuanParser.AND_ASSIGN - 97)) | (1 << (FangyuanParser.OR_ASSIGN - 97)) | (1 << (FangyuanParser.XOR_ASSIGN - 97)) | (1 << (FangyuanParser.MOD_ASSIGN - 97)) | (1 << (FangyuanParser.LSHIFT_ASSIGN - 97)) | (1 << (FangyuanParser.RSHIFT_ASSIGN - 97)) | (1 << (FangyuanParser.URSHIFT_ASSIGN - 97)))) !== 0))) {
+							_localctx._bop = this._errHandler.recoverInline(this);
+						} else {
+							if (this._input.LA(1) === Token.EOF) {
+								this.matchedEOF = true;
+							}
+
+							this._errHandler.reportMatch(this);
+							this.consume();
+						}
+						this.state = 275;
+						this.expr(1);
+						}
+						break;
+
+					case 15:
+						{
+						_localctx = new ExprContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
+						this.state = 276;
+						if (!(this.precpred(this._ctx, 20))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 20)");
+						}
+						this.state = 277;
+						_localctx._bop = this.match(FangyuanParser.DOT);
+						this.state = 280;
+						this._errHandler.sync(this);
+						switch ( this.interpreter.adaptivePredict(this._input, 24, this._ctx) ) {
+						case 1:
+							{
+							this.state = 278;
+							this.match(FangyuanParser.IDENTIFIER);
+							}
+							break;
+
+						case 2:
+							{
+							this.state = 279;
+							this.methodCall();
+							}
+							break;
+						}
+						}
+						break;
+
+					case 16:
+						{
+						_localctx = new ExprContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, FangyuanParser.RULE_expr);
+						this.state = 282;
+						if (!(this.precpred(this._ctx, 19))) {
+							throw this.createFailedPredicateException("this.precpred(this._ctx, 19)");
+						}
+						this.state = 283;
+						this.match(FangyuanParser.LBRACK);
+						this.state = 284;
+						this.expr(0);
+						this.state = 285;
+						this.match(FangyuanParser.RBRACK);
 						}
 						break;
 					}
 					}
 				}
-				this.state = 261;
+				this.state = 291;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 24, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
 			}
 			}
 		}
@@ -1419,45 +1558,85 @@ export class FangyuanParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
+	public methodCall(): MethodCallContext {
+		let _localctx: MethodCallContext = new MethodCallContext(this._ctx, this.state);
+		this.enterRule(_localctx, 36, FangyuanParser.RULE_methodCall);
+		let _la: number;
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 292;
+			this.match(FangyuanParser.IDENTIFIER);
+			this.state = 293;
+			this.match(FangyuanParser.LPAREN);
+			this.state = 295;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			if (_la === FangyuanParser.BIND_PARAMETER_ || _la === FangyuanParser.JSON_NUMBER || ((((_la - 76)) & ~0x1F) === 0 && ((1 << (_la - 76)) & ((1 << (FangyuanParser.BOOL_LITERAL - 76)) | (1 << (FangyuanParser.STRING_LITERAL - 76)) | (1 << (FangyuanParser.NULL_LITERAL - 76)) | (1 << (FangyuanParser.LPAREN - 76)) | (1 << (FangyuanParser.LBRACE - 76)) | (1 << (FangyuanParser.LBRACK - 76)) | (1 << (FangyuanParser.INC - 76)) | (1 << (FangyuanParser.DEC - 76)) | (1 << (FangyuanParser.BANG - 76)) | (1 << (FangyuanParser.TILDE - 76)) | (1 << (FangyuanParser.ADD - 76)) | (1 << (FangyuanParser.SUB - 76)))) !== 0) || _la === FangyuanParser.IDENTIFIER) {
+				{
+				this.state = 294;
+				this.exprList();
+				}
+			}
+
+			this.state = 297;
+			this.match(FangyuanParser.RPAREN);
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
 	public variableDeclaration(): VariableDeclarationContext {
 		let _localctx: VariableDeclarationContext = new VariableDeclarationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 34, FangyuanParser.RULE_variableDeclaration);
+		this.enterRule(_localctx, 38, FangyuanParser.RULE_variableDeclaration);
 		let _la: number;
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 264;
+			this.state = 301;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FangyuanParser.BIND_PARAMETER_) {
 				{
-				this.state = 262;
+				this.state = 299;
 				this.match(FangyuanParser.BIND_PARAMETER_);
-				this.state = 263;
+				this.state = 300;
 				this.match(FangyuanParser.COLON);
 				}
 			}
 
-			this.state = 271;
+			this.state = 308;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 29, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 266;
+					this.state = 303;
 					this.any_name();
-					this.state = 267;
+					this.state = 304;
 					this.match(FangyuanParser.DOT);
 					}
 					}
 				}
-				this.state = 273;
+				this.state = 310;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 29, this._ctx);
 			}
-			this.state = 274;
+			this.state = 311;
 			this.any_name();
 			}
 		}
@@ -1478,15 +1657,15 @@ export class FangyuanParser extends Parser {
 	// @RuleVersion(0)
 	public literal_value(): Literal_valueContext {
 		let _localctx: Literal_valueContext = new Literal_valueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 36, FangyuanParser.RULE_literal_value);
+		this.enterRule(_localctx, 40, FangyuanParser.RULE_literal_value);
 		try {
-			this.state = 278;
+			this.state = 315;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 27, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 30, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 276;
+				this.state = 313;
 				this.value();
 				}
 				break;
@@ -1494,7 +1673,7 @@ export class FangyuanParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 277;
+				this.state = 314;
 				this.match(FangyuanParser.BIND_PARAMETER_);
 				}
 				break;
@@ -1517,12 +1696,12 @@ export class FangyuanParser extends Parser {
 	// @RuleVersion(0)
 	public unary_operator(): Unary_operatorContext {
 		let _localctx: Unary_operatorContext = new Unary_operatorContext(this._ctx, this.state);
-		this.enterRule(_localctx, 38, FangyuanParser.RULE_unary_operator);
+		this.enterRule(_localctx, 42, FangyuanParser.RULE_unary_operator);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 280;
+			this.state = 317;
 			_la = this._input.LA(1);
 			if (!(_la === FangyuanParser.NOT_ || ((((_la - 101)) & ~0x1F) === 0 && ((1 << (_la - 101)) & ((1 << (FangyuanParser.TILDE - 101)) | (1 << (FangyuanParser.ADD - 101)) | (1 << (FangyuanParser.SUB - 101)))) !== 0))) {
 			this._errHandler.recoverInline(this);
@@ -1553,33 +1732,33 @@ export class FangyuanParser extends Parser {
 	// @RuleVersion(0)
 	public any_name(): Any_nameContext {
 		let _localctx: Any_nameContext = new Any_nameContext(this._ctx, this.state);
-		this.enterRule(_localctx, 40, FangyuanParser.RULE_any_name);
+		this.enterRule(_localctx, 44, FangyuanParser.RULE_any_name);
 		try {
-			this.state = 287;
+			this.state = 324;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case FangyuanParser.IDENTIFIER:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 282;
+				this.state = 319;
 				this.match(FangyuanParser.IDENTIFIER);
 				}
 				break;
 			case FangyuanParser.STRING_LITERAL:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 283;
+				this.state = 320;
 				this.match(FangyuanParser.STRING_LITERAL);
 				}
 				break;
 			case FangyuanParser.LBRACK:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 284;
+				this.state = 321;
 				this.match(FangyuanParser.LBRACK);
-				this.state = 285;
+				this.state = 322;
 				this.match(FangyuanParser.STRING_LITERAL);
-				this.state = 286;
+				this.state = 323;
 				this.match(FangyuanParser.RBRACK);
 				}
 				break;
@@ -1604,7 +1783,7 @@ export class FangyuanParser extends Parser {
 
 	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
-		case 16:
+		case 17:
 			return this.expr_sempred(_localctx as ExprContext, predIndex);
 		}
 		return true;
@@ -1612,180 +1791,214 @@ export class FangyuanParser extends Parser {
 	private expr_sempred(_localctx: ExprContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
-			return this.precpred(this._ctx, 13);
+			return this.precpred(this._ctx, 15);
 
 		case 1:
-			return this.precpred(this._ctx, 12);
+			return this.precpred(this._ctx, 14);
 
 		case 2:
-			return this.precpred(this._ctx, 11);
+			return this.precpred(this._ctx, 13);
 
 		case 3:
-			return this.precpred(this._ctx, 10);
+			return this.precpred(this._ctx, 12);
 
 		case 4:
-			return this.precpred(this._ctx, 9);
+			return this.precpred(this._ctx, 11);
 
 		case 5:
-			return this.precpred(this._ctx, 8);
+			return this.precpred(this._ctx, 10);
 
 		case 6:
-			return this.precpred(this._ctx, 7);
+			return this.precpred(this._ctx, 9);
 
 		case 7:
-			return this.precpred(this._ctx, 6);
+			return this.precpred(this._ctx, 8);
 
 		case 8:
-			return this.precpred(this._ctx, 5);
+			return this.precpred(this._ctx, 7);
 
 		case 9:
-			return this.precpred(this._ctx, 4);
+			return this.precpred(this._ctx, 6);
 
 		case 10:
-			return this.precpred(this._ctx, 3);
+			return this.precpred(this._ctx, 5);
 
 		case 11:
+			return this.precpred(this._ctx, 3);
+
+		case 12:
+			return this.precpred(this._ctx, 2);
+
+		case 13:
 			return this.precpred(this._ctx, 1);
+
+		case 14:
+			return this.precpred(this._ctx, 20);
+
+		case 15:
+			return this.precpred(this._ctx, 19);
 		}
 		return true;
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x84\u0124\x04" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x84\u0149\x04" +
 		"\x02\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04" +
 		"\x07\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r" +
 		"\x04\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12" +
-		"\x04\x13\t\x13\x04\x14\t\x14\x04\x15\t\x15\x04\x16\t\x16\x03\x02\x05\x02" +
-		".\n\x02\x03\x02\x07\x021\n\x02\f\x02\x0E\x024\v\x02\x03\x02\x07\x027\n" +
-		"\x02\f\x02\x0E\x02:\v\x02\x03\x02\x07\x02=\n\x02\f\x02\x0E\x02@\v\x02" +
-		"\x03\x02\x03\x02\x03\x03\x03\x03\x03\x03\x03\x03\x05\x03H\n\x03\x03\x03" +
-		"\x03\x03\x06\x03L\n\x03\r\x03\x0E\x03M\x03\x03\x03\x03\x03\x04\x03\x04" +
-		"\x03\x04\x07\x04U\n\x04\f\x04\x0E\x04X\v\x04\x03\x04\x03\x04\x03\x05\x03" +
-		"\x05\x05\x05^\n\x05\x03\x06\x03\x06\x03\x06\x07\x06c\n\x06\f\x06\x0E\x06" +
-		"f\v\x06\x03\x06\x06\x06i\n\x06\r\x06\x0E\x06j\x03\x06\x03\x06\x03\x07" +
-		"\x03\x07\x03\x07\x07\x07r\n\x07\f\x07\x0E\x07u\v\x07\x03\x07\x03\x07\x03" +
-		"\x07\x03\x07\x03\x07\x03\x07\x03\b\x07\b~\n\b\f\b\x0E\b\x81\v\b\x03\t" +
-		"\x05\t\x84\n\t\x03\t\x03\t\x05\t\x88\n\t\x03\t\x03\t\x03\t\x03\t\x03\t" +
-		"\x07\t\x8F\n\t\f\t\x0E\t\x92\v\t\x03\t\x03\t\x03\n\x03\n\x03\v\x03\v\x03" +
-		"\v\x07\v\x9B\n\v\f\v\x0E\v\x9E\v\v\x03\f\x03\f\x03\f\x03\r\x03\r\x03\x0E" +
-		"\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05\x0E\xAB\n\x0E\x03\x0F\x03" +
-		"\x0F\x03\x0F\x03\x0F\x03\x10\x03\x10\x03\x10\x03\x10\x07\x10\xB5\n\x10" +
-		"\f\x10\x0E\x10\xB8\v\x10\x03\x10\x03\x10\x03\x10\x03\x10\x05\x10\xBE\n" +
-		"\x10\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x05\x11\xC7" +
-		"\n\x11\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12" +
-		"\x03\x12\x03\x12\x03\x12\x07\x12\xD4\n\x12\f\x12\x0E\x12\xD7\v\x12\x03" +
-		"\x12\x03\x12\x05\x12\xDB\n\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12" +
-		"\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12" +
-		"\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12" +
-		"\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12" +
-		"\x03\x12\x03\x12\x03\x12\x05\x12\u0100\n\x12\x03\x12\x03\x12\x07\x12\u0104" +
-		"\n\x12\f\x12\x0E\x12\u0107\v\x12\x03\x13\x03\x13\x05\x13\u010B\n\x13\x03" +
-		"\x13\x03\x13\x03\x13\x07\x13\u0110\n\x13\f\x13\x0E\x13\u0113\v\x13\x03" +
-		"\x13\x03\x13\x03\x14\x03\x14\x05\x14\u0119\n\x14\x03\x15\x03\x15\x03\x16" +
-		"\x03\x16\x03\x16\x03\x16\x03\x16\x05\x16\u0122\n\x16\x03\x16\x02\x02\x03" +
-		"\"\x17\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02" +
-		"\x14\x02\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02\"\x02$\x02&\x02" +
-		"(\x02*\x02\x02\v\x04\x02\v\v_`\x04\x02abjk\x03\x02fg\x04\x02lmqq\x03\x02" +
-		"jk\x04\x02\\]de\x06\x02\r\r\x0F\x10[[^^\x04\x02\r\r\x0F\x10\x05\x02\v" +
-		"\vggjk\x02\u013E\x02-\x03\x02\x02\x02\x04C\x03\x02\x02\x02\x06Q\x03\x02" +
-		"\x02\x02\b]\x03\x02\x02\x02\n_\x03\x02\x02\x02\fn\x03\x02\x02\x02\x0E" +
-		"\x7F\x03\x02\x02\x02\x10\x83\x03\x02\x02\x02\x12\x95\x03\x02\x02\x02\x14" +
-		"\x97\x03\x02\x02\x02\x16\x9F\x03\x02\x02\x02\x18\xA2\x03\x02\x02\x02\x1A" +
-		"\xAA\x03\x02\x02\x02\x1C\xAC\x03\x02\x02\x02\x1E\xBD\x03\x02\x02\x02 " +
-		"\xC6\x03\x02\x02\x02\"\xDA\x03\x02\x02\x02$\u010A\x03\x02\x02\x02&\u0118" +
-		"\x03\x02\x02\x02(\u011A\x03\x02\x02\x02*\u0121\x03\x02\x02\x02,.\x05\x06" +
-		"\x04\x02-,\x03\x02\x02\x02-.\x03\x02\x02\x02.2\x03\x02\x02\x02/1\x05\x04" +
-		"\x03\x020/\x03\x02\x02\x0214\x03\x02\x02\x0220\x03\x02\x02\x0223\x03\x02" +
-		"\x02\x0238\x03\x02\x02\x0242\x03\x02\x02\x0257\x05\x16\f\x0265\x03\x02" +
-		"\x02\x027:\x03\x02\x02\x0286\x03\x02\x02\x0289\x03\x02\x02\x029>\x03\x02" +
-		"\x02\x02:8\x03\x02\x02\x02;=\x05\b\x05\x02<;\x03\x02\x02\x02=@\x03\x02" +
-		"\x02\x02><\x03\x02\x02\x02>?\x03\x02\x02\x02?A\x03\x02\x02\x02@>\x03\x02" +
-		"\x02\x02AB\x07\x02\x02\x03B\x03\x03\x02\x02\x02CD\x07\x7F\x02\x02DG\x07" +
-		"\x84\x02\x02EF\x07i\x02\x02FH\x07\x84\x02\x02GE\x03\x02\x02\x02GH\x03" +
-		"\x02\x02\x02HI\x03\x02\x02\x02IK\x07T\x02\x02JL\x07P\x02\x02KJ\x03\x02" +
-		"\x02\x02LM\x03\x02\x02\x02MK\x03\x02\x02\x02MN\x03\x02\x02\x02NO\x03\x02" +
-		"\x02\x02OP\x07U\x02\x02P\x05\x03\x02\x02\x02QV\x075\x02\x02RS\x07\x84" +
-		"\x02\x02SU\x07Z\x02\x02TR\x03\x02\x02\x02UX\x03\x02\x02\x02VT\x03\x02" +
-		"\x02\x02VW\x03\x02\x02\x02WY\x03\x02\x02\x02XV\x03\x02\x02\x02YZ\x07\x84" +
-		"\x02\x02Z\x07\x03\x02\x02\x02[^\x05\f\x07\x02\\^\x05\n\x06\x02][\x03\x02" +
-		"\x02\x02]\\\x03\x02\x02\x02^\t\x03\x02\x02\x02_`\x07\x04\x02\x02`d\x07" +
-		"P\x02\x02ac\x05\x16\f\x02ba\x03\x02\x02\x02cf\x03\x02\x02\x02db\x03\x02" +
-		"\x02\x02de\x03\x02\x02\x02eh\x03\x02\x02\x02fd\x03\x02\x02\x02gi\x05\f" +
-		"\x07\x02hg\x03\x02\x02\x02ij\x03\x02\x02\x02jh\x03\x02\x02\x02jk\x03\x02" +
-		"\x02\x02kl\x03\x02\x02\x02lm\x07\b\x02\x02m\v\x03\x02\x02\x02no\x07\x05" +
-		"\x02\x02os\x07P\x02\x02pr\x05\x16\f\x02qp\x03\x02\x02\x02ru\x03\x02\x02" +
-		"\x02sq\x03\x02\x02\x02st\x03\x02\x02\x02tv\x03\x02\x02\x02us\x03\x02\x02" +
-		"\x02vw\x07\x06\x02\x02wx\x05\x0E\b\x02xy\x07\x07\x02\x02yz\x05\x14\v\x02" +
-		"z{\x07\b\x02\x02{\r\x03\x02\x02\x02|~\x05\x10\t\x02}|\x03\x02\x02\x02" +
-		"~\x81\x03\x02\x02\x02\x7F}\x03\x02\x02\x02\x7F\x80\x03\x02\x02\x02\x80" +
-		"\x0F\x03\x02\x02\x02\x81\x7F\x03\x02\x02\x02\x82\x84\x05\x12\n\x02\x83" +
-		"\x82\x03\x02\x02\x02\x83\x84\x03\x02\x02\x02\x84\x87\x03\x02\x02\x02\x85" +
-		"\x86\x07\x03\x02\x02\x86\x88\x07i\x02\x02\x87\x85\x03\x02\x02\x02\x87" +
-		"\x88\x03\x02\x02\x02\x88\x89\x03\x02\x02\x02\x89\x8A\x07\x84\x02\x02\x8A" +
-		"\x8B\x07R\x02\x02\x8B\x90\x05\"\x12\x02\x8C\x8D\x07Y\x02\x02\x8D\x8F\x05" +
-		"\"\x12\x02\x8E\x8C\x03\x02\x02\x02\x8F\x92\x03\x02\x02\x02\x90\x8E\x03" +
-		"\x02\x02\x02\x90\x91\x03\x02\x02\x02\x91\x93\x03\x02\x02\x02\x92\x90\x03" +
-		"\x02\x02\x02\x93\x94\x07S\x02\x02\x94\x11\x03\x02\x02\x02\x95\x96\t\x02" +
-		"\x02\x02\x96\x13\x03\x02\x02\x02\x97\x9C\x05\x18\r\x02\x98\x99\x07Y\x02" +
-		"\x02\x99\x9B\x05\x18\r\x02\x9A\x98\x03\x02\x02\x02\x9B\x9E\x03\x02\x02" +
-		"\x02\x9C\x9A\x03\x02\x02\x02\x9C\x9D\x03\x02\x02\x02\x9D\x15\x03\x02\x02" +
-		"\x02\x9E\x9C\x03\x02\x02\x02\x9F\xA0\x07\x84\x02\x02\xA0\xA1\x05 \x11" +
-		"\x02\xA1\x17\x03\x02\x02\x02\xA2\xA3\x05 \x11\x02\xA3\x19\x03\x02\x02" +
-		"\x02\xA4\xA5\x07T\x02\x02\xA5\xA6\x05\x1C\x0F\x02\xA6\xA7\x07U\x02\x02" +
-		"\xA7\xAB\x03\x02\x02\x02\xA8\xA9\x07T\x02\x02\xA9\xAB\x07U\x02\x02\xAA" +
-		"\xA4\x03\x02\x02\x02\xAA\xA8\x03\x02\x02\x02\xAB\x1B\x03\x02\x02\x02\xAC" +
-		"\xAD\x07P\x02\x02\xAD\xAE\x07i\x02\x02\xAE\xAF\x05 \x11\x02\xAF\x1D\x03" +
-		"\x02\x02\x02\xB0\xB1\x07V\x02\x02\xB1\xB6\x05 \x11\x02\xB2\xB3\x07Y\x02" +
-		"\x02\xB3\xB5\x05 \x11\x02\xB4\xB2\x03\x02\x02\x02\xB5\xB8\x03\x02\x02" +
-		"\x02\xB6\xB4\x03\x02\x02\x02\xB6\xB7\x03\x02\x02\x02\xB7\xB9\x03\x02\x02" +
-		"\x02\xB8\xB6\x03\x02\x02\x02\xB9\xBA\x07W\x02\x02\xBA\xBE\x03\x02\x02" +
-		"\x02\xBB\xBC\x07V\x02\x02\xBC\xBE\x07W\x02\x02\xBD\xB0\x03\x02\x02\x02" +
-		"\xBD\xBB\x03\x02\x02\x02\xBE\x1F\x03\x02\x02\x02\xBF\xC7\x07P\x02\x02" +
-		"\xC0\xC7\x07\x15\x02\x02\xC1\xC7\x05\x1A\x0E\x02\xC2\xC7\x05\x1E\x10\x02" +
-		"\xC3\xC7\x07N\x02\x02\xC4\xC7\x07Q\x02\x02\xC5\xC7\x07\x03\x02\x02\xC6" +
-		"\xBF\x03\x02\x02\x02\xC6\xC0\x03\x02\x02\x02\xC6\xC1\x03\x02\x02\x02\xC6" +
-		"\xC2\x03\x02\x02\x02\xC6\xC3\x03\x02\x02\x02\xC6\xC4\x03\x02\x02\x02\xC6" +
-		"\xC5\x03\x02\x02\x02\xC7!\x03\x02\x02\x02\xC8\xC9\b\x12\x01\x02\xC9\xDB" +
-		"\x05&\x14\x02\xCA\xDB\x05$\x13\x02\xCB\xCC\t\x03\x02\x02\xCC\xDB\x05\"" +
-		"\x12\x11\xCD\xCE\t\x04\x02\x02\xCE\xDB\x05\"\x12\x10\xCF\xD0\x07R\x02" +
-		"\x02\xD0\xD5\x05\"\x12\x02\xD1\xD2\x07Y\x02\x02\xD2\xD4\x05\"\x12\x02" +
-		"\xD3\xD1\x03\x02\x02\x02\xD4\xD7\x03\x02\x02\x02\xD5\xD3\x03\x02\x02\x02" +
-		"\xD5\xD6\x03\x02\x02\x02\xD6\xD8\x03\x02\x02\x02\xD7\xD5\x03\x02\x02\x02" +
-		"\xD8\xD9\x07S\x02\x02\xD9\xDB\x03\x02\x02\x02\xDA\xC8\x03\x02\x02\x02" +
-		"\xDA\xCA\x03\x02\x02\x02\xDA\xCB\x03\x02\x02\x02\xDA\xCD\x03\x02\x02\x02" +
-		"\xDA\xCF\x03\x02\x02\x02\xDB\u0105\x03\x02\x02\x02\xDC\xDD\f\x0F\x02\x02" +
-		"\xDD\xDE\t\x05\x02\x02\xDE\u0104\x05\"\x12\x10\xDF\xE0\f\x0E\x02\x02\xE0" +
-		"\xE1\t\x06\x02\x02\xE1\u0104\x05\"\x12\x0F\xE2\xE3\f\r\x02\x02\xE3\xE4" +
-		"\t\x07\x02\x02\xE4\u0104\x05\"\x12\x0E\xE5\xE6\f\f\x02\x02\xE6\xE7\t\b" +
-		"\x02\x02\xE7\u0104\x05\"\x12\r\xE8\xE9\f\v\x02\x02\xE9\xEA\x07n\x02\x02" +
-		"\xEA\u0104\x05\"\x12\f\xEB\xEC\f\n\x02\x02\xEC\xED\x07p\x02\x02\xED\u0104" +
-		"\x05\"\x12\v\xEE\xEF\f\t\x02\x02\xEF\xF0\x07o\x02\x02\xF0\u0104\x05\"" +
-		"\x12\n\xF1\xF2\f\b\x02\x02\xF2\xF3\x07`\x02\x02\xF3\u0104\x05\"\x12\t" +
-		"\xF4\xF5\f\x07\x02\x02\xF5\xF6\x07_\x02\x02\xF6\u0104\x05\"\x12\b\xF7" +
-		"\xF8\f\x06\x02\x02\xF8\xF9\x07\n\x02\x02\xF9\u0104\x05\"\x12\x07\xFA\xFB" +
-		"\f\x05\x02\x02\xFB\xFC\x07\t\x02\x02\xFC\u0104\x05\"\x12\x06\xFD\xFF\f" +
-		"\x03\x02\x02\xFE\u0100\x07\v\x02\x02\xFF\xFE\x03\x02\x02\x02\xFF\u0100" +
-		"\x03\x02\x02\x02\u0100\u0101\x03\x02\x02\x02\u0101\u0102\t\t\x02\x02\u0102" +
-		"\u0104\x05\"\x12\x04\u0103\xDC\x03\x02\x02\x02\u0103\xDF\x03\x02\x02\x02" +
-		"\u0103\xE2\x03\x02\x02\x02\u0103\xE5\x03\x02\x02\x02\u0103\xE8\x03\x02" +
-		"\x02\x02\u0103\xEB\x03\x02\x02\x02\u0103\xEE\x03\x02\x02\x02\u0103\xF1" +
-		"\x03\x02\x02\x02\u0103\xF4\x03\x02\x02\x02\u0103\xF7\x03\x02\x02\x02\u0103" +
-		"\xFA\x03\x02\x02\x02\u0103\xFD\x03\x02\x02\x02\u0104\u0107\x03\x02\x02" +
-		"\x02\u0105\u0103\x03\x02\x02\x02\u0105\u0106\x03\x02\x02\x02\u0106#\x03" +
-		"\x02\x02\x02\u0107\u0105\x03\x02\x02\x02\u0108\u0109\x07\x03\x02\x02\u0109" +
-		"\u010B\x07i\x02\x02\u010A\u0108\x03\x02\x02\x02\u010A\u010B\x03\x02\x02" +
-		"\x02\u010B\u0111\x03\x02\x02\x02\u010C\u010D\x05*\x16\x02\u010D\u010E" +
-		"\x07Z\x02\x02\u010E\u0110\x03\x02\x02\x02\u010F\u010C\x03\x02\x02\x02" +
-		"\u0110\u0113\x03\x02\x02\x02\u0111\u010F\x03\x02\x02\x02\u0111\u0112\x03" +
-		"\x02\x02\x02\u0112\u0114\x03\x02\x02\x02\u0113\u0111\x03\x02\x02\x02\u0114" +
-		"\u0115\x05*\x16\x02\u0115%\x03\x02\x02\x02\u0116\u0119\x05 \x11\x02\u0117" +
-		"\u0119\x07\x03\x02\x02\u0118\u0116\x03\x02\x02\x02\u0118\u0117\x03\x02" +
-		"\x02\x02\u0119\'\x03\x02\x02\x02\u011A\u011B\t\n\x02\x02\u011B)\x03\x02" +
-		"\x02\x02\u011C\u0122\x07\x84\x02\x02\u011D\u0122\x07P\x02\x02\u011E\u011F" +
-		"\x07V\x02\x02\u011F\u0120\x07P\x02\x02\u0120\u0122\x07W\x02\x02\u0121" +
-		"\u011C\x03\x02\x02\x02\u0121\u011D\x03\x02\x02\x02\u0121\u011E\x03\x02" +
-		"\x02\x02\u0122+\x03\x02\x02\x02\x1F-28>GMV]djs\x7F\x83\x87\x90\x9C\xAA" +
-		"\xB6\xBD\xC6\xD5\xDA\xFF\u0103\u0105\u010A\u0111\u0118\u0121";
+		"\x04\x13\t\x13\x04\x14\t\x14\x04\x15\t\x15\x04\x16\t\x16\x04\x17\t\x17" +
+		"\x04\x18\t\x18\x03\x02\x05\x022\n\x02\x03\x02\x07\x025\n\x02\f\x02\x0E" +
+		"\x028\v\x02\x03\x02\x07\x02;\n\x02\f\x02\x0E\x02>\v\x02\x03\x02\x07\x02" +
+		"A\n\x02\f\x02\x0E\x02D\v\x02\x03\x02\x03\x02\x03\x03\x03\x03\x03\x03\x03" +
+		"\x03\x05\x03L\n\x03\x03\x03\x03\x03\x06\x03P\n\x03\r\x03\x0E\x03Q\x03" +
+		"\x03\x03\x03\x03\x04\x03\x04\x03\x04\x07\x04Y\n\x04\f\x04\x0E\x04\\\v" +
+		"\x04\x03\x04\x03\x04\x03\x05\x03\x05\x05\x05b\n\x05\x03\x06\x03\x06\x03" +
+		"\x06\x07\x06g\n\x06\f\x06\x0E\x06j\v\x06\x03\x06\x06\x06m\n\x06\r\x06" +
+		"\x0E\x06n\x03\x06\x03\x06\x03\x07\x03\x07\x03\x07\x07\x07v\n\x07\f\x07" +
+		"\x0E\x07y\v\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\b" +
+		"\x07\b\x82\n\b\f\b\x0E\b\x85\v\b\x03\t\x05\t\x88\n\t\x03\t\x03\t\x05\t" +
+		"\x8C\n\t\x03\t\x03\t\x03\t\x03\t\x03\t\x07\t\x93\n\t\f\t\x0E\t\x96\v\t" +
+		"\x03\t\x03\t\x03\n\x03\n\x03\v\x06\v\x9D\n\v\r\v\x0E\v\x9E\x03\f\x03\f" +
+		"\x03\f\x03\r\x03\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05" +
+		"\x0E\xAC\n\x0E\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x10\x03\x10\x03\x10" +
+		"\x03\x10\x07\x10\xB6\n\x10\f\x10\x0E\x10\xB9\v\x10\x03\x10\x03\x10\x03" +
+		"\x10\x03\x10\x05\x10\xBF\n\x10\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11" +
+		"\x03\x11\x03\x11\x05\x11\xC8\n\x11\x03\x12\x03\x12\x03\x12\x07\x12\xCD" +
+		"\n\x12\f\x12\x0E\x12\xD0\v\x12\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x07\x13\xDE\n" +
+		"\x13\f\x13\x0E\x13\xE1\v\x13\x03\x13\x03\x13\x05\x13\xE5\n\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x05\x13\u010A" +
+		"\n\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13" +
+		"\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x05\x13\u011B" +
+		"\n\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x07\x13\u0122\n\x13\f\x13" +
+		"\x0E\x13\u0125\v\x13\x03\x14\x03\x14\x03\x14\x05\x14\u012A\n\x14\x03\x14" +
+		"\x03\x14\x03\x15\x03\x15\x05\x15\u0130\n\x15\x03\x15\x03\x15\x03\x15\x07" +
+		"\x15\u0135\n\x15\f\x15\x0E\x15\u0138\v\x15\x03\x15\x03\x15\x03\x16\x03" +
+		"\x16\x05\x16\u013E\n\x16\x03\x17\x03\x17\x03\x18\x03\x18\x03\x18\x03\x18" +
+		"\x03\x18\x05\x18\u0147\n\x18\x03\x18\x02\x02\x03$\x19\x02\x02\x04\x02" +
+		"\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18" +
+		"\x02\x1A\x02\x1C\x02\x1E\x02 \x02\"\x02$\x02&\x02(\x02*\x02,\x02.\x02" +
+		"\x02\f\x04\x02\v\v_`\x04\x02abjk\x03\x02fg\x04\x02lmqq\x03\x02jk\x04\x02" +
+		"\\]de\x06\x02\r\r\x0F\x10[[^^\x04\x02\r\r\x0F\x10\x04\x02ccr|\x05\x02" +
+		"\v\vggjk\x02\u0169\x021\x03\x02\x02\x02\x04G\x03\x02\x02\x02\x06U\x03" +
+		"\x02\x02\x02\ba\x03\x02\x02\x02\nc\x03\x02\x02\x02\fr\x03\x02\x02\x02" +
+		"\x0E\x83\x03\x02\x02\x02\x10\x87\x03\x02\x02\x02\x12\x99\x03\x02\x02\x02" +
+		"\x14\x9C\x03\x02\x02\x02\x16\xA0\x03\x02\x02\x02\x18\xA3\x03\x02\x02\x02" +
+		"\x1A\xAB\x03\x02\x02\x02\x1C\xAD\x03\x02\x02\x02\x1E\xBE\x03\x02\x02\x02" +
+		" \xC7\x03\x02\x02\x02\"\xC9\x03\x02\x02\x02$\xE4\x03\x02\x02\x02&\u0126" +
+		"\x03\x02\x02\x02(\u012F\x03\x02\x02\x02*\u013D\x03\x02\x02\x02,\u013F" +
+		"\x03\x02\x02\x02.\u0146\x03\x02\x02\x0202\x05\x06\x04\x0210\x03\x02\x02" +
+		"\x0212\x03\x02\x02\x0226\x03\x02\x02\x0235\x05\x04\x03\x0243\x03\x02\x02" +
+		"\x0258\x03\x02\x02\x0264\x03\x02\x02\x0267\x03\x02\x02\x027<\x03\x02\x02" +
+		"\x0286\x03\x02\x02\x029;\x05\x16\f\x02:9\x03\x02\x02\x02;>\x03\x02\x02" +
+		"\x02<:\x03\x02\x02\x02<=\x03\x02\x02\x02=B\x03\x02\x02\x02><\x03\x02\x02" +
+		"\x02?A\x05\b\x05\x02@?\x03\x02\x02\x02AD\x03\x02\x02\x02B@\x03\x02\x02" +
+		"\x02BC\x03\x02\x02\x02CE\x03\x02\x02\x02DB\x03\x02\x02\x02EF\x07\x02\x02" +
+		"\x03F\x03\x03\x02\x02\x02GH\x07\x7F\x02\x02HK\x07\x84\x02\x02IJ\x07i\x02" +
+		"\x02JL\x07\x84\x02\x02KI\x03\x02\x02\x02KL\x03\x02\x02\x02LM\x03\x02\x02" +
+		"\x02MO\x07T\x02\x02NP\x07P\x02\x02ON\x03\x02\x02\x02PQ\x03\x02\x02\x02" +
+		"QO\x03\x02\x02\x02QR\x03\x02\x02\x02RS\x03\x02\x02\x02ST\x07U\x02\x02" +
+		"T\x05\x03\x02\x02\x02UZ\x075\x02\x02VW\x07\x84\x02\x02WY\x07Z\x02\x02" +
+		"XV\x03\x02\x02\x02Y\\\x03\x02\x02\x02ZX\x03\x02\x02\x02Z[\x03\x02\x02" +
+		"\x02[]\x03\x02\x02\x02\\Z\x03\x02\x02\x02]^\x07\x84\x02\x02^\x07\x03\x02" +
+		"\x02\x02_b\x05\f\x07\x02`b\x05\n\x06\x02a_\x03\x02\x02\x02a`\x03\x02\x02" +
+		"\x02b\t\x03\x02\x02\x02cd\x07\x04\x02\x02dh\x07P\x02\x02eg\x05\x16\f\x02" +
+		"fe\x03\x02\x02\x02gj\x03\x02\x02\x02hf\x03\x02\x02\x02hi\x03\x02\x02\x02" +
+		"il\x03\x02\x02\x02jh\x03\x02\x02\x02km\x05\f\x07\x02lk\x03\x02\x02\x02" +
+		"mn\x03\x02\x02\x02nl\x03\x02\x02\x02no\x03\x02\x02\x02op\x03\x02\x02\x02" +
+		"pq\x07\b\x02\x02q\v\x03\x02\x02\x02rs\x07\x05\x02\x02sw\x07P\x02\x02t" +
+		"v\x05\x16\f\x02ut\x03\x02\x02\x02vy\x03\x02\x02\x02wu\x03\x02\x02\x02" +
+		"wx\x03\x02\x02\x02xz\x03\x02\x02\x02yw\x03\x02\x02\x02z{\x07\x06\x02\x02" +
+		"{|\x05\x0E\b\x02|}\x07\x07\x02\x02}~\x05\x14\v\x02~\x7F\x07\b\x02\x02" +
+		"\x7F\r\x03\x02\x02\x02\x80\x82\x05\x10\t\x02\x81\x80\x03\x02\x02\x02\x82" +
+		"\x85\x03\x02\x02\x02\x83\x81\x03\x02\x02\x02\x83\x84\x03\x02\x02\x02\x84" +
+		"\x0F\x03\x02\x02\x02\x85\x83\x03\x02\x02\x02\x86\x88\x05\x12\n\x02\x87" +
+		"\x86\x03\x02\x02\x02\x87\x88\x03\x02\x02\x02\x88\x8B\x03\x02\x02\x02\x89" +
+		"\x8A\x07\x03\x02\x02\x8A\x8C\x07i\x02\x02\x8B\x89\x03\x02\x02\x02\x8B" +
+		"\x8C\x03\x02\x02\x02\x8C\x8D\x03\x02\x02\x02\x8D\x8E\x07\x84\x02\x02\x8E" +
+		"\x8F\x07R\x02\x02\x8F\x94\x05$\x13\x02\x90\x91\x07Y\x02\x02\x91\x93\x05" +
+		"$\x13\x02\x92\x90\x03\x02\x02\x02\x93\x96\x03\x02\x02\x02\x94\x92\x03" +
+		"\x02\x02\x02\x94\x95\x03\x02\x02\x02\x95\x97\x03\x02\x02\x02\x96\x94\x03" +
+		"\x02\x02\x02\x97\x98\x07S\x02\x02\x98\x11\x03\x02\x02\x02\x99\x9A\t\x02" +
+		"\x02\x02\x9A\x13\x03\x02\x02\x02\x9B\x9D\x05$\x13\x02\x9C\x9B\x03\x02" +
+		"\x02\x02\x9D\x9E\x03\x02\x02\x02\x9E\x9C\x03\x02\x02\x02\x9E\x9F\x03\x02" +
+		"\x02\x02\x9F\x15\x03\x02\x02\x02\xA0\xA1\x07\x84\x02\x02\xA1\xA2\x05 " +
+		"\x11\x02\xA2\x17\x03\x02\x02\x02\xA3\xA4\x05 \x11\x02\xA4\x19\x03\x02" +
+		"\x02\x02\xA5\xA6\x07T\x02\x02\xA6\xA7\x05\x1C\x0F\x02\xA7\xA8\x07U\x02" +
+		"\x02\xA8\xAC\x03\x02\x02\x02\xA9\xAA\x07T\x02\x02\xAA\xAC\x07U\x02\x02" +
+		"\xAB\xA5\x03\x02\x02\x02\xAB\xA9\x03\x02\x02\x02\xAC\x1B\x03\x02\x02\x02" +
+		"\xAD\xAE\x07P\x02\x02\xAE\xAF\x07i\x02\x02\xAF\xB0\x05 \x11\x02\xB0\x1D" +
+		"\x03\x02\x02\x02\xB1\xB2\x07V\x02\x02\xB2\xB7\x05 \x11\x02\xB3\xB4\x07" +
+		"Y\x02\x02\xB4\xB6\x05 \x11\x02\xB5\xB3\x03\x02\x02\x02\xB6\xB9\x03\x02" +
+		"\x02\x02\xB7\xB5\x03\x02\x02\x02\xB7\xB8\x03\x02\x02\x02\xB8\xBA\x03\x02" +
+		"\x02\x02\xB9\xB7\x03\x02\x02\x02\xBA\xBB\x07W\x02\x02\xBB\xBF\x03\x02" +
+		"\x02\x02\xBC\xBD\x07V\x02\x02\xBD\xBF\x07W\x02\x02\xBE\xB1\x03\x02\x02" +
+		"\x02\xBE\xBC\x03\x02\x02\x02\xBF\x1F\x03\x02\x02\x02\xC0\xC8\x07P\x02" +
+		"\x02\xC1\xC8\x07\x15\x02\x02\xC2\xC8\x05\x1A\x0E\x02\xC3\xC8\x05\x1E\x10" +
+		"\x02\xC4\xC8\x07N\x02\x02\xC5\xC8\x07Q\x02\x02\xC6\xC8\x07\x03\x02\x02" +
+		"\xC7\xC0\x03\x02\x02\x02\xC7\xC1\x03\x02\x02\x02\xC7\xC2\x03\x02\x02\x02" +
+		"\xC7\xC3\x03\x02\x02\x02\xC7\xC4\x03\x02\x02\x02\xC7\xC5\x03\x02\x02\x02" +
+		"\xC7\xC6\x03\x02\x02\x02\xC8!\x03\x02\x02\x02\xC9\xCE\x05$\x13\x02\xCA" +
+		"\xCB\x07Y\x02\x02\xCB\xCD\x05$\x13\x02\xCC\xCA\x03\x02\x02\x02\xCD\xD0" +
+		"\x03\x02\x02\x02\xCE\xCC\x03\x02\x02\x02\xCE\xCF\x03\x02\x02\x02\xCF#" +
+		"\x03\x02\x02\x02\xD0\xCE\x03\x02\x02\x02\xD1\xD2\b\x13\x01\x02\xD2\xE5" +
+		"\x05*\x16\x02\xD3\xE5\x05(\x15\x02\xD4\xE5\x05&\x14\x02\xD5\xD6\t\x03" +
+		"\x02\x02\xD6\xE5\x05$\x13\x13\xD7\xD8\t\x04\x02\x02\xD8\xE5\x05$\x13\x12" +
+		"\xD9\xDA\x07R\x02\x02\xDA\xDF\x05$\x13\x02\xDB\xDC\x07Y\x02\x02\xDC\xDE" +
+		"\x05$\x13\x02\xDD\xDB\x03\x02\x02\x02\xDE\xE1\x03\x02\x02\x02\xDF\xDD" +
+		"\x03\x02\x02\x02\xDF\xE0\x03\x02\x02\x02\xE0\xE2\x03\x02\x02\x02\xE1\xDF" +
+		"\x03\x02\x02\x02\xE2\xE3\x07S\x02\x02\xE3\xE5\x03\x02\x02\x02\xE4\xD1" +
+		"\x03\x02\x02\x02\xE4\xD3\x03\x02\x02\x02\xE4\xD4\x03\x02\x02\x02\xE4\xD5" +
+		"\x03\x02\x02\x02\xE4\xD7\x03\x02\x02\x02\xE4\xD9\x03\x02\x02\x02\xE5\u0123" +
+		"\x03\x02\x02\x02\xE6\xE7\f\x11\x02\x02\xE7\xE8\t\x05\x02\x02\xE8\u0122" +
+		"\x05$\x13\x12\xE9\xEA\f\x10\x02\x02\xEA\xEB\t\x06\x02\x02\xEB\u0122\x05" +
+		"$\x13\x11\xEC\xED\f\x0F\x02\x02\xED\xEE\t\x07\x02\x02\xEE\u0122\x05$\x13" +
+		"\x10\xEF\xF0\f\x0E\x02\x02\xF0\xF1\t\b\x02\x02\xF1\u0122\x05$\x13\x0F" +
+		"\xF2\xF3\f\r\x02\x02\xF3\xF4\x07n\x02\x02\xF4\u0122\x05$\x13\x0E\xF5\xF6" +
+		"\f\f\x02\x02\xF6\xF7\x07p\x02\x02\xF7\u0122\x05$\x13\r\xF8\xF9\f\v\x02" +
+		"\x02\xF9\xFA\x07o\x02\x02\xFA\u0122\x05$\x13\f\xFB\xFC\f\n\x02\x02\xFC" +
+		"\xFD\x07`\x02\x02\xFD\u0122\x05$\x13\v\xFE\xFF\f\t\x02\x02\xFF\u0100\x07" +
+		"_\x02\x02\u0100\u0122\x05$\x13\n\u0101\u0102\f\b\x02\x02\u0102\u0103\x07" +
+		"\n\x02\x02\u0103\u0122\x05$\x13\t\u0104\u0105\f\x07\x02\x02\u0105\u0106" +
+		"\x07\t\x02\x02\u0106\u0122\x05$\x13\b\u0107\u0109\f\x05\x02\x02\u0108" +
+		"\u010A\x07\v\x02\x02\u0109\u0108\x03\x02\x02\x02\u0109\u010A\x03\x02\x02" +
+		"\x02\u010A\u010B\x03\x02\x02\x02\u010B\u010C\t\t\x02\x02\u010C\u0122\x05" +
+		"$\x13\x06\u010D\u010E\f\x04\x02\x02\u010E\u010F\x07h\x02\x02\u010F\u0110" +
+		"\x05$\x13\x02\u0110\u0111\x07i\x02\x02\u0111\u0112\x05$\x13\x04\u0112" +
+		"\u0122\x03\x02\x02\x02\u0113\u0114\f\x03\x02\x02\u0114\u0115\t\n\x02\x02" +
+		"\u0115\u0122\x05$\x13\x03\u0116\u0117\f\x16\x02\x02\u0117\u011A\x07Z\x02" +
+		"\x02\u0118\u011B\x07\x84\x02\x02\u0119\u011B\x05&\x14\x02\u011A\u0118" +
+		"\x03\x02\x02\x02\u011A\u0119\x03\x02\x02\x02\u011B\u0122\x03\x02\x02\x02" +
+		"\u011C\u011D\f\x15\x02\x02\u011D\u011E\x07V\x02\x02\u011E\u011F\x05$\x13" +
+		"\x02\u011F\u0120\x07W\x02\x02\u0120\u0122\x03\x02\x02\x02\u0121\xE6\x03" +
+		"\x02\x02\x02\u0121\xE9\x03\x02\x02\x02\u0121\xEC\x03\x02\x02\x02\u0121" +
+		"\xEF\x03\x02\x02\x02\u0121\xF2\x03\x02\x02\x02\u0121\xF5\x03\x02\x02\x02" +
+		"\u0121\xF8\x03\x02\x02\x02\u0121\xFB\x03\x02\x02\x02\u0121\xFE\x03\x02" +
+		"\x02\x02\u0121\u0101\x03\x02\x02\x02\u0121\u0104\x03\x02\x02\x02\u0121" +
+		"\u0107\x03\x02\x02\x02\u0121\u010D\x03\x02\x02\x02\u0121\u0113\x03\x02" +
+		"\x02\x02\u0121\u0116\x03\x02\x02\x02\u0121\u011C\x03\x02\x02\x02\u0122" +
+		"\u0125\x03\x02\x02\x02\u0123\u0121\x03\x02\x02\x02\u0123\u0124\x03\x02" +
+		"\x02\x02\u0124%\x03\x02\x02\x02\u0125\u0123\x03\x02\x02\x02\u0126\u0127" +
+		"\x07\x84\x02\x02\u0127\u0129\x07R\x02\x02\u0128\u012A\x05\"\x12\x02\u0129" +
+		"\u0128\x03\x02\x02\x02\u0129\u012A\x03\x02\x02\x02\u012A\u012B\x03\x02" +
+		"\x02\x02\u012B\u012C\x07S\x02\x02\u012C\'\x03\x02\x02\x02\u012D\u012E" +
+		"\x07\x03\x02\x02\u012E\u0130\x07i\x02\x02\u012F\u012D\x03\x02\x02\x02" +
+		"\u012F\u0130\x03\x02\x02\x02\u0130\u0136\x03\x02\x02\x02\u0131\u0132\x05" +
+		".\x18\x02\u0132\u0133\x07Z\x02\x02\u0133\u0135\x03\x02\x02\x02\u0134\u0131" +
+		"\x03\x02\x02\x02\u0135\u0138\x03\x02\x02\x02\u0136\u0134\x03\x02\x02\x02" +
+		"\u0136\u0137\x03\x02\x02\x02\u0137\u0139\x03\x02\x02\x02\u0138\u0136\x03" +
+		"\x02\x02\x02\u0139\u013A\x05.\x18\x02\u013A)\x03\x02\x02\x02\u013B\u013E" +
+		"\x05 \x11\x02\u013C\u013E\x07\x03\x02\x02\u013D\u013B\x03\x02\x02\x02" +
+		"\u013D\u013C\x03\x02\x02\x02\u013E+\x03\x02\x02\x02\u013F\u0140\t\v\x02" +
+		"\x02\u0140-\x03\x02\x02\x02\u0141\u0147\x07\x84\x02\x02\u0142\u0147\x07" +
+		"P\x02\x02\u0143\u0144\x07V\x02\x02\u0144\u0145\x07P\x02\x02\u0145\u0147" +
+		"\x07W\x02\x02\u0146\u0141\x03\x02\x02\x02\u0146\u0142\x03\x02\x02\x02" +
+		"\u0146\u0143\x03\x02\x02\x02\u0147/\x03\x02\x02\x02\"16<BKQZahnw\x83\x87" +
+		"\x8B\x94\x9E\xAB\xB7\xBE\xC7\xCE\xDF\xE4\u0109\u011A\u0121\u0123\u0129" +
+		"\u012F\u0136\u013D\u0146";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!FangyuanParser.__ATN) {
@@ -2216,22 +2429,13 @@ export class LogisticsContext extends ParserRuleContext {
 
 
 export class RuleRHSContext extends ParserRuleContext {
-	public json(): JsonContext[];
-	public json(i: number): JsonContext;
-	public json(i?: number): JsonContext | JsonContext[] {
+	public expr(): ExprContext[];
+	public expr(i: number): ExprContext;
+	public expr(i?: number): ExprContext | ExprContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(JsonContext);
+			return this.getRuleContexts(ExprContext);
 		} else {
-			return this.getRuleContext(i, JsonContext);
-		}
-	}
-	public COMMA(): TerminalNode[];
-	public COMMA(i: number): TerminalNode;
-	public COMMA(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(FangyuanParser.COMMA);
-		} else {
-			return this.getToken(FangyuanParser.COMMA, i);
+			return this.getRuleContext(i, ExprContext);
 		}
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -2484,6 +2688,53 @@ export class ValueContext extends ParserRuleContext {
 }
 
 
+export class ExprListContext extends ParserRuleContext {
+	public expr(): ExprContext[];
+	public expr(i: number): ExprContext;
+	public expr(i?: number): ExprContext | ExprContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ExprContext);
+		} else {
+			return this.getRuleContext(i, ExprContext);
+		}
+	}
+	public COMMA(): TerminalNode[];
+	public COMMA(i: number): TerminalNode;
+	public COMMA(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(FangyuanParser.COMMA);
+		} else {
+			return this.getToken(FangyuanParser.COMMA, i);
+		}
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return FangyuanParser.RULE_exprList; }
+	// @Override
+	public enterRule(listener: FangyuanParserListener): void {
+		if (listener.enterExprList) {
+			listener.enterExprList(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: FangyuanParserListener): void {
+		if (listener.exitExprList) {
+			listener.exitExprList(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: FangyuanParserVisitor<Result>): Result {
+		if (visitor.visitExprList) {
+			return visitor.visitExprList(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
 export class ExprContext extends ParserRuleContext {
 	public _prefix!: Token;
 	public _bop!: Token;
@@ -2502,6 +2753,13 @@ export class ExprContext extends ParserRuleContext {
 			return this.getRuleContext(i, ExprContext);
 		}
 	}
+	public DOT(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.DOT, 0); }
+	public IDENTIFIER(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.IDENTIFIER, 0); }
+	public methodCall(): MethodCallContext | undefined {
+		return this.tryGetRuleContext(0, MethodCallContext);
+	}
+	public LBRACK(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.LBRACK, 0); }
+	public RBRACK(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.RBRACK, 0); }
 	public ADD(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.ADD, 0); }
 	public SUB(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.SUB, 0); }
 	public INC(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.INC, 0); }
@@ -2539,6 +2797,20 @@ export class ExprContext extends ParserRuleContext {
 		}
 	}
 	public NOT_(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.NOT_, 0); }
+	public COLON(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.COLON, 0); }
+	public QUESTION(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.QUESTION, 0); }
+	public ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.ASSIGN, 0); }
+	public ADD_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.ADD_ASSIGN, 0); }
+	public SUB_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.SUB_ASSIGN, 0); }
+	public MUL_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.MUL_ASSIGN, 0); }
+	public DIV_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.DIV_ASSIGN, 0); }
+	public AND_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.AND_ASSIGN, 0); }
+	public OR_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.OR_ASSIGN, 0); }
+	public XOR_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.XOR_ASSIGN, 0); }
+	public RSHIFT_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.RSHIFT_ASSIGN, 0); }
+	public URSHIFT_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.URSHIFT_ASSIGN, 0); }
+	public LSHIFT_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.LSHIFT_ASSIGN, 0); }
+	public MOD_ASSIGN(): TerminalNode | undefined { return this.tryGetToken(FangyuanParser.MOD_ASSIGN, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -2560,6 +2832,41 @@ export class ExprContext extends ParserRuleContext {
 	public accept<Result>(visitor: FangyuanParserVisitor<Result>): Result {
 		if (visitor.visitExpr) {
 			return visitor.visitExpr(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class MethodCallContext extends ParserRuleContext {
+	public IDENTIFIER(): TerminalNode { return this.getToken(FangyuanParser.IDENTIFIER, 0); }
+	public LPAREN(): TerminalNode { return this.getToken(FangyuanParser.LPAREN, 0); }
+	public RPAREN(): TerminalNode { return this.getToken(FangyuanParser.RPAREN, 0); }
+	public exprList(): ExprListContext | undefined {
+		return this.tryGetRuleContext(0, ExprListContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return FangyuanParser.RULE_methodCall; }
+	// @Override
+	public enterRule(listener: FangyuanParserListener): void {
+		if (listener.enterMethodCall) {
+			listener.enterMethodCall(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: FangyuanParserListener): void {
+		if (listener.exitMethodCall) {
+			listener.exitMethodCall(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: FangyuanParserVisitor<Result>): Result {
+		if (visitor.visitMethodCall) {
+			return visitor.visitMethodCall(this);
 		} else {
 			return visitor.visitChildren(this);
 		}

@@ -1,6 +1,6 @@
 package com.olymtech
 
-@typescript:execute {
+@typescript:returnType {
 	"[number, string]" 
 }
 
@@ -24,24 +24,22 @@ rule "华南地区"
 		User(orgName == "华南公司" && roleName == "航管") // 当公司名称叫华南公司，角色叫航管
 		FeeItem(orgId in ["1223", "123"]) // 这条费用的对应的公司id 在"1223", "123"里面
 	then 
-		0, "" // 表示不锁定费用，可以编辑
+		[0, ""] // 表示不锁定费用，可以编辑
 end
 
-ruleset "非业务主体"
-	mode "sort"
-	rule "非业务主体锁定"
-		when 
-			User($orgIds: orgIds) // 取出用户中的所有关联公司
-			 FeeItem((id not match "^add-") && (orgId not in $userList)) // 这条费用的对应的公司id 不在用户的关联公司里面
-		then 
-			1, $orgIds // 锁定，返回消息
-	end
+rule "非业务主体锁定"
+	when 
+		$user: User($orgIds: orgIds) // 取出用户中的所有关联公司
+		FeeItem((id not match "^add-") && (orgId not in $orgIds)) // 这条费用的对应的公司id 不在用户的关联公司里面
+	then 
+		$user.orgIds = 1
+		[1, "非业务主体锁定"] // 锁定，返回消息
 end
 
 rule "子单锁定"
 	when 
 		FeeItem(splitBillType == "child") 
 	then 
-		1, "子单锁定"
+		[1, "子单锁定"]
 end
 

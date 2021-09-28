@@ -214,15 +214,15 @@ export class FangyuanVisitor
         });
         this.typescript["context"] = text;
       }
-      if (ids[1].text === "execute") {
-        this.typescript["execute"] = trimQuote(ctx.STRING_LITERAL()[0].text);
+      if (ids[1].text === "returnType") {
+        this.typescript["returnType"] = trimQuote(ctx.STRING_LITERAL()[0].text);
       }
     }
     if (!this.typescript["context"]) {
       this.typescript["context"] = `type Context = any`;
     }
-    if (!this.typescript["execute"]) {
-      this.typescript["execute"] = `any`;
+    if (!this.typescript["returnType"]) {
+      this.typescript["returnType"] = `any`;
     }
     return "";
   }
@@ -263,7 +263,7 @@ export class FangyuanVisitor
       "// prettier-ignore\n" +
       this.typescript["context"] +
       "\n" +
-      ruleType(this.typescript["execute"]) +
+      ruleType(this.typescript["returnType"]) +
       "\n" +
       Object.keys(this.shim)
         .map((key) => this.shim[key])
@@ -367,7 +367,12 @@ export class FangyuanVisitor
     const typeDeclare = ctx.IDENTIFIER().text;
     this.type = ucFirst(typeDeclare);
     this.types.push(this.type);
-    return "(" + this.visitChildren(ctx) + ")";
+    const children = this.visitChildren(ctx);
+    const bind = ctx.BIND_PARAMETER_();
+    if (bind) {
+      this.variables.push(`let ${ctx.BIND_PARAMETER_()?.text} = ${this.type}`);
+    }
+    return "(" + children + ")";
   }
 
   // Visit a parse tree produced by FangyuanParser#logistics.
@@ -383,9 +388,12 @@ export class FangyuanVisitor
       text && result.push(text);
     }
     return (
-      "  function execute(){" +
-      "\n  return " +
-      (result.length === 1 ? result[0] : `[${result.join(", ")}]`) +
+      `  function execute(): ${this.typescript["returnType"]}{` +
+      result
+        .map((x, index, arr) => {
+          return arr.length - 1 === index ? `return ${x};` : x;
+        })
+        .join("\n") +
       "\n  }\n"
     );
   }
